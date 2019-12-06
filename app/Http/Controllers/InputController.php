@@ -9,6 +9,7 @@ use App\Exports\FileExport;
 use Illuminate\Support\Facades\Auth;
 use App\Transaction;
 use App\Branch;
+use App\Delete;
 use DB;
 use Excel;
 use Func;
@@ -24,7 +25,7 @@ class InputController extends Controller
 
     public function get_branch()
     {
-      $branch_list = Branch::all();
+      $branch_list = Branch::all()->toArray();
       return view('branch',['list' => $branch_list]);
 
     }
@@ -74,7 +75,8 @@ class InputController extends Controller
       $people->user_id = Auth::user()->emp_id;
       $save = $people->save();
 
-      return view('branch');
+      $branch_list = Branch::all()->toArray();
+      return view('branch',['list' => $branch_list]);
     }
 
     public function edit_branch(Request $request)
@@ -93,6 +95,27 @@ class InputController extends Controller
       $people->branch_name = $branch_name;
       $people->user_id = Auth::user()->emp_id;
       $save = $people->save();
+
+      $branch_list = Branch::all()->toArray();
+      return view('branch',['list' => $branch_list]);
+    }
+
+    public function delete_branch(Request $request)
+    {
+      $id = $request->id;
+      $branch_id = $request->branch_id;
+      $branch_name = $request->branch_name;
+
+      $people = Branch::find($id);
+      $people->delete();
+
+      $user = new Delete;
+      $user->user_id = Auth::user()->emp_id;
+      $user->detail = 'id:'.$branch_id." name:".$branch_name;
+      $user->save();
+      
+      $branch_list = Branch::all()->toArray();
+      return view('branch',['list' => $branch_list]);
     }
 
     public function ajax_data()

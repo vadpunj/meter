@@ -50,8 +50,8 @@
                 <div class="form-group row">
                   <label class="col-md-2 col-form-label">รหัสสาขา</label>
                   <div class="form-group col-sm-4">
-                    <input class="form-control @error('source') is-invalid @enderror" type="text" name="branch_id">
-                    @error('source')
+                    <input class="form-control @error('branch_id') is-invalid @enderror" type="text" name="branch_id">
+                    @error('branch_id')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -102,16 +102,22 @@
               <tr>
             </thead>
             <tbody>
-             @foreach($list as $row)
-               <tr>
+            @if(!empty($list))
+              @foreach($list as $row => $value)
+              <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $row->branch_id }}</td>
-                <td>{{ $row->branch_name }}</td>
-                <td>{{ Func::get_name_user($row->user_id) }}</td>
-                <td>{{ $row->created_at }}</td>
-                <td><button class="btn btn-warning mb-1" type="button" data-toggle="modal" data-target="#editmodal{{$row->id}}"><i class="nav-icon icon-pencil"></i></button> <button class="btn btn-danger mb-1" type="button" data-toggle="modal" data-target="#deletemodal"><i class="nav-icon icon-trash"></i></button> </td>
-               </tr>
-             @endforeach
+                <td>{{ $value['branch_id'] }}</td>
+                <td>{{ $value['branch_name'] }}</td>
+                <td>{{ Func::get_name_user($value['user_id']) }}</td>
+                <td>{{ $value['created_at'] }}</td>
+                <td><button class="btn btn-warning mb-1" type="button" data-toggle="modal" data-target="#editmodal{{$value['id']}}"><i class="nav-icon icon-pencil"></i></button> <button class="btn btn-danger mb-1" type="button" data-toggle="modal" data-target="#delmodal{{$value['id']}}"><i class="nav-icon icon-trash"></i></button> </td>
+              </tr>
+              @endforeach
+            @else
+              <tr>
+                <td colspan="6" align="center">{{ 'ไม่มีข้อมูล' }}</td>
+              </tr>
+            @endif
             </tbody>
           </table>
           </div>
@@ -120,31 +126,55 @@
     </div>
   </div>
   </main>
-@foreach($list as $row)
-  <div class="modal fade" id="editmodal{{$row->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+@foreach($list as $row => $value)
+
+  <div class="modal fade" id="editmodal{{$value['id']}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-warning" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Edit branch</h4>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
         </div>
-        <form class="" action="{{route('')}}" method="post">
+        <form class="" action="{{route('editbranch')}}" method="post">
           @csrf
           <div class="modal-body">
             <div class="row">
               <div class="form-group col-sm-6">
                 <label for="city">รหัสสาขา</label>
-                <input class="form-control" type="text" name="branch_id">
+                <input class="form-control" type="text" name="branch_id" value="{{ $value['branch_id'] }}">
               </div>
               <div class="form-group col-sm-6">
                 <label for="postal-code">ชื่อสาขา</label>
-                <input class="form-control" type="text" name="branch_name">
+                <input class="form-control" type="text" name="branch_name" value="{{ $value['branch_name'] }}">
               </div>
-              <input type="hidden" value="$row->id" name="id">
+              <input type="hidden" value="{{$value['id']}}" name="id">
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-warning" type="button">Save changes</button>
+            <button class="btn btn-warning" type="submit">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+   <!-- /.modal-dialog-->
+  </div>
+  <div class="modal fade" id="delmodal{{$value['id']}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit branch</h4>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        </div>
+        <form action="{{route('delbranch')}}" method="post">
+          @csrf
+          <div class="modal-body">
+            <p>คุณต้องการลบข้อมูลบรรทัดนี้ใช่หรือไม่ ?</p>
+            <input type="hidden" value="{{$value['id']}}" name="id">
+            <input type="hidden" name="branch_id" value="{{ $value['branch_id'] }}">
+            <input type="hidden" name="branch_name" value="{{ $value['branch_name'] }}">
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-danger" type="submit">Delete It</button>
           </div>
         </form>
       </div>

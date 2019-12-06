@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLogUsersTable extends Migration
+class CreateDeletesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateLogUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('log_users', function (Blueprint $table) {
+        Schema::create('delete_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('user_id');
-            $table->char('path');
-            $table->char('type_log');
+            $table->string('user_id',10);
+            $table->char('detail');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateLogUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log_users');
+        Schema::dropIfExists('deletes');
     }
 }

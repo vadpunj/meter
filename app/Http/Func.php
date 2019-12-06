@@ -20,8 +20,12 @@ class Func{
   public static function get_name_user($id)
   {
     $row = User::where('emp_id',$id)->first();
+    if(!$row){
+      return '';
+    }else{
+      return $row->name;
+    }
 
-    return $row->name;
   }
 }
 

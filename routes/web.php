@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
   Route::post('/home', 'InputController@post_home')->name('inserthome');
   Route::post('/branch', 'InputController@post_branch')->name('insertbranch');
   Route::post('/branch/edit', 'InputController@edit_branch')->name('editbranch');
+  Route::post('/branch/del', 'InputController@delete_branch')->name('delbranch');
   Route::get('/list', 'InputController@list_data')->name('list');
   Route::post('/find/branch', 'InputController@ajax_data');
   // Route::get('/upload/readfile',function(){

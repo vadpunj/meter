@@ -38,7 +38,7 @@ class ImportExcelController extends Controller
      $data = Excel::load($path)->get();
 
      $insert_log = new Log_user;
-     $insert_log->user_name = Auth::user()->name;
+     $insert_log->user_name = Auth::user()->emp_id;
      // $insert_log->user_name = 'phats';
      $insert_log->path = $pathreal.$name;
      $insert_log->type_log = 'electric';
@@ -104,7 +104,7 @@ class ImportExcelController extends Controller
      $data = Excel::load($path)->get();
      // เก็บข้อมูลว่าใครเป็นคน insert file เข้าระบบ
      $insert_log = new Log_user;
-     $insert_log->user_name = Auth::user()->name;
+     $insert_log->user_name = Auth::user()->emp_id;
      // $insert_log->user_name = 'phats';
      $insert_log->path = $pathreal.$name;
      $insert_log->type_log = 'water';
