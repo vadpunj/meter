@@ -26,10 +26,10 @@ class ExportExcelController extends Controller
       $content = "";
       foreach($data as $value => $key){
         if($key->TIME_KEY == $key->M_UNIT){
-          $content .= "\n".$key->TIME_KEY;
+          $content .= $key->TIME_KEY;
           $content .= "\r";
         }else{
-          $content .= "\n".$key->TIME_KEY."\t";
+          $content .= $key->TIME_KEY."\t";
           $content .= $key->ASSET_ID."\t";
           $content .= $key->COST_CENTER."\t";
           $content .= $key->METER_ID."\t";
@@ -40,7 +40,7 @@ class ExportExcelController extends Controller
           $content .= "\r";
         }
       }
-      $fileName = "logs-".$time_key.".txt";
+      $fileName = "elect_logs-".$time_key.".txt";
 
       $headers = [
         'Content-type' => 'text/plain',
@@ -66,10 +66,10 @@ class ExportExcelController extends Controller
       $content = "";
       foreach($data as $value => $key){
         if($key->TIME_KEY == $key->M_UNIT){
-          $content .= "\n".$key->TIME_KEY;
+          $content .= $key->TIME_KEY;
           $content .= "\r";
         }else{
-          $content .= "\n".$key->TIME_KEY."\t";
+          $content .= $key->TIME_KEY."\t";
           $content .= $key->ASSET_ID."\t";
           $content .= $key->COST_CENTER."\t";
           $content .= $key->METER_ID."\t";
@@ -80,7 +80,7 @@ class ExportExcelController extends Controller
           $content .= "\r";
         }
       }
-      $fileName = "logs-".$time_key.".txt";
+      $fileName = "water_logs-".$time_key.".txt";
 
       $headers = [
         'Content-type' => 'text/plain',

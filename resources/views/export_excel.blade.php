@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-<title>CoreUI</title>
+<title>Export page</title>
 @endsection
 
 @section('css')
@@ -62,20 +62,38 @@
               <th>Create Date</th>
           </thead>
           <tbody>
+            <?php
+              $sum_m_unit = 0;
+              $sum_M_UNIT_PRICE = 0;
+              $sum_M_Cost_TOTAL = 0;
+             ?>
          @foreach($data as $row)
+         <?php
+            $sum_m_unit += $row->M_UNIT;
+            $sum_M_UNIT_PRICE += $row->M_UNIT_PRICE;
+            $sum_M_Cost_TOTAL += $row->M_Cost_TOTAL;
+          ?>
            <tr>
             <td>{{ $row->TIME_KEY }}</td>
             <td>{{ $row->ASSET_ID }}</td>
             <td>{{ $row->COST_CENTER }}</td>
             <td>{{ $row->METER_ID }}</td>
             <td align="right">{{ number_format($row->M_UNIT) }}</td>
-            <td>{{ $row->M_UNIT_PRICE }}</td>
+            <td align="right">{{ $row->M_UNIT_PRICE }}</td>
             <td align="right">{{ number_format($row->M_Cost_TOTAL,2) }}</td>
             <td align="center">{{ $row->ACTIVITY_CODE }}</td>
             <td align="center">{{ Func::get_date($row->created_at) }}</td>
            </tr>
          @endforeach
           </tbody>
+          {{--<tfooter>
+            <tr>
+              <td colspan="4">Sum</td>
+              <td>{{ number_format($sum_m_unit,2) }}</td>
+              <td>{{ number_format($sum_M_UNIT_PRICE,2) }}</td>
+              <td>{{ number_format($sum_M_Cost_TOTAL,2) }}</td>
+            </tr>
+          </tfooter>--}}
         </table>
       </div>
      </div>
@@ -97,7 +115,7 @@
             <div class="form-group row">
               <label class="col-md-3 col-form-label" for="email-input">Time Key</label>
               <div class="col-md-9">
-                <input class="form-control" type="number" name="date" autocomplete="email">
+                <input class="form-control" type="number" name="date">
               </div>
             </div>
           </div>

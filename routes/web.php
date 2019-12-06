@@ -24,9 +24,11 @@ Route::post('/login', "UserController@postlogin")->middleware('guest')->name('lo
 Route::get('/logout', "UserController@logout")->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
-  Route::get('/home', 'InputController@get_source')->name('home');
-  Route::post('/home', 'InputController@post_data')->name('insert');
-  // Route::get('/home/insert', 'InputController@test_input')->name('insert');
+  Route::get('/home', 'InputController@get_home')->name('home');
+  Route::get('/branch', 'InputController@get_branch')->name('branch');
+  Route::post('/home', 'InputController@post_home')->name('inserthome');
+  Route::post('/branch', 'InputController@post_branch')->name('insertbranch');
+  Route::post('/branch/edit', 'InputController@edit_branch')->name('editbranch');
   Route::get('/list', 'InputController@list_data')->name('list');
   Route::post('/find/branch', 'InputController@ajax_data');
   // Route::get('/upload/readfile',function(){

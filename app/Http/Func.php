@@ -1,6 +1,7 @@
 <?php
 // Helpers files
-
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class Func{
   public static function get_date($value)
@@ -15,7 +16,13 @@ class Func{
     return $day.' '.$month[$m].' '.$year;
 
   }
-  
+
+  public static function get_name_user($id)
+  {
+    $row = User::where('emp_id',$id)->first();
+
+    return $row->name;
+  }
 }
 
  ?>

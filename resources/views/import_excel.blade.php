@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-<title>CoreUI</title>
+<title>Import page</title>
 @endsection
 
 @section('css')

@@ -44,7 +44,7 @@
               </div>
             @endif
           <i class="fa fa-align-justify"></i> กรอกศูนย์ต้นทุน</div>
-            <form class="form-horizontal" action="{{ route('insert') }}" method="post">
+            <form class="form-horizontal" action="{{ route('inserthome') }}" method="post">
               @csrf
               <div class="card-body">
                 <div class="form-group row">

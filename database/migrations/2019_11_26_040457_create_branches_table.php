@@ -17,6 +17,7 @@ class CreateBranchesTable extends Migration
           $table->bigIncrements('id');
           $table->integer('branch_id');
           $table->char('branch_name');
+          $table->string('user_id',10);
           $table->timestamps();
         });
     }
