@@ -16,6 +16,10 @@ use Func;
 
 class InputController extends Controller
 {
+    public function home_page($value='')
+    {
+      return view('dashboard');
+    }
     public function get_home()
     {
 

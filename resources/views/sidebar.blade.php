@@ -4,6 +4,10 @@
     <ul class="nav">
       <!-- <li class="nav-title">จัดการระบบ</li> -->
       <li class="nav-item">
+        <a class="nav-link {{ (request()->is('/dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">
+          <i class="nav-icon icon-home"></i> หน้าแรก</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link {{ (request()->is('/branch')) ? 'active' : '' }}" href="{{ route('branch') }}">
           <i class="nav-icon icon-pencil"></i> สาขา</a>
       </li>

@@ -24,6 +24,7 @@ Route::post('/login', "UserController@postlogin")->middleware('guest')->name('lo
 Route::get('/logout', "UserController@logout")->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
+  Route::get('/dashboard', 'InputController@home_page')->name('dashboard');
   Route::group(['prefix' => 'home'], function(){
     Route::get('/add', 'InputController@get_home')->name('homeadd');
     Route::post('/add', 'InputController@post_home')->name('inserthome');
