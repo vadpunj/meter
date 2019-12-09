@@ -26,8 +26,7 @@ class ExportExcelController extends Controller
       $content = "";
       foreach($data as $value => $key){
         if($key->TIME_KEY == $key->M_UNIT){
-          $content .= $key->TIME_KEY;
-          $content .= "\r";
+          $content .= $key->TIME_KEY."\n";
         }else{
           $content .= $key->TIME_KEY."\t";
           $content .= $key->ASSET_ID."\t";
@@ -36,10 +35,10 @@ class ExportExcelController extends Controller
           $content .= $key->M_UNIT."\t";
           $content .= $key->M_UNIT_PRICE."\t";
           $content .= $key->M_Cost_TOTAL."\t";
-          $content .= $key->ACTIVITY_CODE;
-          $content .= "\r";
+          $content .= $key->ACTIVITY_CODE."\n";
         }
       }
+      // dd($content);
       $fileName = "elect_logs-".$time_key.".txt";
 
       $headers = [
@@ -67,7 +66,7 @@ class ExportExcelController extends Controller
       foreach($data as $value => $key){
         if($key->TIME_KEY == $key->M_UNIT){
           $content .= $key->TIME_KEY;
-          $content .= "\r";
+          $content .= "\n";
         }else{
           $content .= $key->TIME_KEY."\t";
           $content .= $key->ASSET_ID."\t";
@@ -76,8 +75,7 @@ class ExportExcelController extends Controller
           $content .= $key->M_UNIT."\t";
           $content .= $key->M_UNIT_PRICE."\t";
           $content .= $key->M_Cost_TOTAL."\t";
-          $content .= $key->ACTIVITY_CODE;
-          $content .= "\r";
+          $content .= $key->ACTIVITY_CODE."\n";
         }
       }
       $fileName = "water_logs-".$time_key.".txt";

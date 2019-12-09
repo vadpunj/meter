@@ -4,16 +4,31 @@
     <ul class="nav">
       <!-- <li class="nav-title">จัดการระบบ</li> -->
       <li class="nav-item">
-        <a class="nav-link {{ (request()->is('/home')) ? 'active' : '' }}" href="{{ route('home') }}">
-          <i class="nav-icon icon-pencil"></i> ศูนย์ต้นทุน</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link {{ (request()->is('/branch')) ? 'active' : '' }}" href="{{ route('branch') }}">
           <i class="nav-icon icon-pencil"></i> สาขา</a>
       </li>
+      <li class="nav-item nav-dropdown {{ (request()->is('/home/*')) ? 'show open' : '' }}">
+        <a class="nav-link nav-dropdown-toggle" href="#">
+          <i class="nav-icon icon-pencil"></i> ศูนย์ต้นทุน</a>
+        <ul class="nav-dropdown-items">
+          <li class="nav-item">
+            <a class="nav-link {{ (request()->is('home/add')) ? 'active' : '' }}" href="{{ route('homeadd') }}">
+              <i class="nav-icon icon-plus"></i> เพิ่ม</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ (request()->is('home/view')) ? 'active' : '' }}" href="{{ route('homeview') }}">
+              <i class="nav-icon icon-pencil"></i> แก้ไข</a>
+          </li>
+        </ul>
+      </li>
+      {{--<li class="nav-item">
+        <a class="nav-link {{ (request()->is('/home')) ? 'active' : '' }}" href="{{ route('home') }}">
+          <i class="nav-icon icon-pencil"></i> ศูนย์ต้นทุน</a>
+      </li>--}}
+
       <li class="nav-item nav-dropdown {{ (request()->is('/water/*')) ? 'show open' : '' }}">
         <a class="nav-link nav-dropdown-toggle" href="#">
-          <i class="nav-icon icon-puzzle"></i> ค่าน้ำ</a>
+          <i class="nav-icon icon-drop"></i> ค่าน้ำ</a>
         <ul class="nav-dropdown-items">
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('water/import')) ? 'active' : '' }}" href="{{ route('wimport') }}">
@@ -31,7 +46,7 @@
       </li>--}}
       <li class="nav-item nav-dropdown {{ (request()->is('/electric/*')) ? 'show open' : '' }}">
         <a class="nav-link nav-dropdown-toggle" href="#">
-          <i class="nav-icon icon-puzzle"></i> ค่าไฟ</a>
+          <i class="nav-icon icon-fire"></i> ค่าไฟ</a>
         <ul class="nav-dropdown-items">
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('electric/import')) ? 'active' : '' }}" href="{{ route('eimport') }}">
@@ -54,7 +69,7 @@
       @if(Auth::user()->type ==1)
       <li class="nav-item">
         <a class="nav-link" target="_blank" href="{{ route('register') }}" >
-          <i class="nav-icon icon-doc"></i> Register</a>
+          <i class="nav-icon icon-people"></i> Register</a>
       </li>
       @endif
     </ul>

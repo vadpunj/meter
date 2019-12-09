@@ -24,18 +24,24 @@ Route::post('/login', "UserController@postlogin")->middleware('guest')->name('lo
 Route::get('/logout', "UserController@logout")->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
-  Route::get('/home', 'InputController@get_home')->name('home');
-  Route::get('/branch', 'InputController@get_branch')->name('branch');
-  Route::post('/home', 'InputController@post_home')->name('inserthome');
-  Route::post('/branch', 'InputController@post_branch')->name('insertbranch');
-  Route::post('/branch/edit', 'InputController@edit_branch')->name('editbranch');
-  Route::post('/branch/del', 'InputController@delete_branch')->name('delbranch');
+  Route::group(['prefix' => 'home'], function(){
+    Route::get('/add', 'InputController@get_home')->name('homeadd');
+    Route::post('/add', 'InputController@post_home')->name('inserthome');
+    Route::get('/view', 'InputController@get_home_view')->name('homeview');
+    Route::get('/edit/{id}', 'InputController@get_home_edit');
+    Route::post('/edit', 'InputController@post_home_edit')->name('insertedit');
+    Route::post('/del', 'InputController@delete_source')->name('delsource');
+  });
+  Route::group(['prefix' => 'branch'], function(){
+    Route::get('/', 'InputController@get_branch')->name('branch');
+    Route::post('/', 'InputController@post_branch')->name('insertbranch');
+    Route::post('/edit', 'InputController@edit_branch')->name('editbranch');
+    Route::post('/del', 'InputController@delete_branch')->name('delbranch');
+  });
+
   Route::get('/list', 'InputController@list_data')->name('list');
   Route::post('/find/branch', 'InputController@ajax_data');
-  // Route::get('/upload/readfile',function(){
-  //     return view('readfile');
-  //   })->name('upload');
-  // Route::get('/export', 'InputController@export')->name('export');
+
   Route::group(['prefix' => 'electric'], function(){
     Route::get('/import_excel', 'ImportExcelController@index_electric')->name('eimport');
     Route::post('/import_excel/import', 'ImportExcelController@import_electric');

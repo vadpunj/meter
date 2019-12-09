@@ -2,7 +2,7 @@
 
 @section('title')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>Add page</title>
+<title>Edit page</title>
 @endsection
 
 @section('css')
@@ -43,8 +43,8 @@
                 {!! session('notification') !!}
               </div>
             @endif
-          <i class="fa fa-align-justify"></i> กรอกศูนย์ต้นทุน</div>
-            <form class="form-horizontal" action="{{ route('inserthome') }}" method="post">
+          <i class="fa fa-align-justify"></i> แก้ไขศูนย์ต้นทุน</div>
+            <form class="form-horizontal" action="{{ route('insertedit') }}" method="post">
               @csrf
               <div class="card-body">
                 <div class="form-group row">
@@ -54,7 +54,7 @@
                         <span class="input-group-text">
                           <i class="fa fa-calendar"></i>
                         </span>
-                        <input class="form-control @error('start_date') is-invalid @enderror" type="date" name="start_date">
+                        <input class="form-control @error('start_date') is-invalid @enderror" type="date" name="start_date" value="{{$data->start_date}}">
                         @error('start_date')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -68,7 +68,7 @@
                           <span class="input-group-text">
                             <i class="fa fa-calendar"></i>
                           </span>
-                          <input class="form-control @error('end_date') is-invalid @enderror" type="date" name="end_date">
+                          <input class="form-control @error('end_date') is-invalid @enderror" type="date" name="end_date" value="{{$data->end_date}}">
                           @error('end_date')
                               <span class="invalid-feedback" role="alert">
                                   <strong>{{ $message }}</strong>
@@ -80,7 +80,7 @@
                 <div class="form-group row">
                   <label class="col-md-2 col-form-label">ศูนย์ต้นทุน</label>
                   <div class="form-group col-sm-4">
-                    <input class="form-control @error('source') is-invalid @enderror" type="text" name="source">
+                    <input class="form-control @error('source') is-invalid @enderror" type="text" name="source" value="{{$data->source}}">
                     @error('source')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -89,7 +89,7 @@
                   </div>
                   <label class="col-md-2 col-form-label">สาขาหน่วยงาน</label>
                   <div class="form-group col-sm-4">
-                    <input class="form-control @error('branch') is-invalid @enderror" type="text" id="branch" name="branch" onchange="myfunc()">
+                    <input class="form-control @error('branch') is-invalid @enderror" type="text" id="branch" name="branch" value="{{$data->branch_id}}" onchange="myfunc()">
                     @error('branch')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -100,7 +100,8 @@
                 </div>
               </div>
               <div class="col-md-2 form-group form-actions">
-                <button class="btn btn-primary" type="submit">Submit</button>
+                <input class="form-control" type="hidden" name="id" value="{{$data->id}}">
+                <button class="btn btn-primary" type="submit"><i class="nav-icon icon-pencil"></i> แก้ไข</button>
               </div>
             </form>
           </div>
@@ -114,6 +115,29 @@
 @section('js')
 <script src="{{ asset('admin/node_modules/jquery/dist/jquery.min.js') }}"></script>
   <script>
+  // loadหน้ามาครั้งแรก
+  $(document).ready(function()
+    {
+        var x = document.getElementById("branch").value;
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+            type: 'POST',
+            url: '/find/branch',
+            data: {data:x},
+            dataType: "json",
+            success: function (json) {
+              document.getElementById("demo").innerHTML = json.success;
+            },
+            error: function (e) {
+                console.log(e.message);
+            }
+        });
+    });
+    // ทุกครั้งที่มีการแก้ไข
   function myfunc(){
     var x = document.getElementById("branch").value;
     $.ajaxSetup({

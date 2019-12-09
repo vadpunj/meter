@@ -162,7 +162,7 @@
     <div class="modal-dialog modal-danger" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Edit branch</h4>
+          <h4 class="modal-title">Delete branch</h4>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
         </div>
         <form action="{{route('delbranch')}}" method="post">
