@@ -20,6 +20,6 @@ class AuthAdministrator
         if(Auth::check() && Auth::user()->isAdmin()){
             return $next($request);
         }
-        return redirect('home');
+        return redirect('dashboard');
     }
 }

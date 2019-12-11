@@ -16,16 +16,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/register', "UserController@register")->middleware('admin');
-// Route::post('/register', "UserController@postregister")->middleware('admin')->name('register');
+Route::get('/register', "UserController@register")->middleware('admin');
+Route::post('/register', "UserController@postregister")->middleware('admin')->name('register');
 
 Route::get('/login', "UserController@login")->middleware('guest')->name('login');
 Route::post('/login', "UserController@postlogin")->middleware('guest')->name('login');
 Route::get('/logout', "UserController@logout")->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
-  Route::get('/register', "UserController@register")->middleware('admin');
-  Route::post('/register', "UserController@postregister")->middleware('admin')->name('register');
   Route::get('/dashboard', 'InputController@home_page')->name('dashboard');
   Route::group(['prefix' => 'home'], function(){
     Route::get('/add', 'InputController@get_home')->name('homeadd');
