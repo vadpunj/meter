@@ -40,7 +40,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('water/export_excel')) ? 'active' : '' }}" href="{{ route('wexport') }}">
-              <i class="nav-icon icon-doc"></i> export file</a>
+              <i class="nav-icon fa fa-download"></i> export file</a>
           </li>
         </ul>
       </li>
@@ -58,7 +58,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('electric/export')) ? 'active' : '' }}" href="{{ route('eexport') }}">
-              <i class="nav-icon icon-doc"></i> export file</a>
+              <i class="nav-icon fa fa-download"></i> export file</a>
           </li>
         </ul>
       </li>
