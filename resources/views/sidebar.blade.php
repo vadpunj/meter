@@ -7,11 +7,25 @@
         <a class="nav-link {{ (request()->is('/dashboard')) ? 'active' : '' }}" href="{{ route('dashboard') }}">
           <i class="nav-icon icon-home"></i> หน้าแรก</a>
       </li>
+      <li class="nav-item nav-dropdown {{ (request()->is('/source/*')) ? 'show open' : '' }}">
+        <a class="nav-link nav-dropdown-toggle" href="#">
+          <i class="nav-icon icon-pencil"></i> ศูนย์ต้นทุน</a>
+        <ul class="nav-dropdown-items">
+          <li class="nav-item">
+            <a class="nav-link {{ (request()->is('source/import_excel/*')) ? 'active' : '' }}" href="{{ route('import') }}">
+              <i class="nav-icon icon-plus"></i> อ่านไฟล์</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{ (request()->is('source/add')) ? 'active' : '' }}" href="{{ route('add_source') }}">
+              <i class="nav-icon icon-pencil"></i> เพิ่มข้อมูล</a>
+          </li>
+        </ul>
+      </li>
       <li class="nav-item">
         <a class="nav-link {{ (request()->is('/branch')) ? 'active' : '' }}" href="{{ route('branch') }}">
           <i class="nav-icon icon-pencil"></i> สาขา</a>
       </li>
-      <li class="nav-item nav-dropdown {{ (request()->is('/home/*')) ? 'show open' : '' }}">
+      {{--<li class="nav-item nav-dropdown {{ (request()->is('/home/*')) ? 'show open' : '' }}">
         <a class="nav-link nav-dropdown-toggle" href="#">
           <i class="nav-icon icon-pencil"></i> ศูนย์ต้นทุน</a>
         <ul class="nav-dropdown-items">
@@ -24,7 +38,7 @@
               <i class="nav-icon icon-pencil"></i> แก้ไข</a>
           </li>
         </ul>
-      </li>
+      </li>--}}
       {{--<li class="nav-item">
         <a class="nav-link {{ (request()->is('/home')) ? 'active' : '' }}" href="{{ route('home') }}">
           <i class="nav-icon icon-pencil"></i> ศูนย์ต้นทุน</a>

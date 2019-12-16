@@ -19,27 +19,26 @@ class ExportExcelController extends Controller
 
     public function export_electric(Request $request)
     {
-      $time_key = $request->date;
-      $data = DB::table('electrics')->where('TIME_KEY',$time_key)->get()->toArray();
-      // $key_array[] = array('TIME_KEY','ASSET_ID','COST_CENTER','METER_ID','M_UNIT','M_UNIT_PRICE','M_Cost_TOTAL','ACTIVITY_CODE');
+      $start = $request->start_date;
+      $end = $request->end_date;
+      
+      $data = DB::table('electrics')
+            ->select(DB::raw('sum(price) as price,business_process,product,functional_area,segment'))
+            ->whereBetween('date', [$start, $end])
+            ->groupBy('business_process','product','functional_area','segment')
+            ->get()
+            ->toArray();
 
       $content = "";
       foreach($data as $value => $key){
-        if($key->TIME_KEY == $key->M_UNIT){
-          $content .= $key->TIME_KEY."\r\n";;
-        }else{
-          $content .= $key->TIME_KEY."\t";
-          $content .= $key->ASSET_ID."\t";
-          $content .= $key->COST_CENTER."\t";
-          $content .= $key->METER_ID."\t";
-          $content .= $key->M_UNIT."\t";
-          $content .= $key->M_UNIT_PRICE."\t";
-          $content .= $key->M_Cost_TOTAL."\t";
-          $content .= $key->ACTIVITY_CODE."\r\n";;
-        }
+        $content .= $key->price."\t";
+        $content .= $key->business_process."\t";
+        $content .= $key->product."\t";
+        $content .= $key->functional_area."\t";
+        $content .= $key->segment."\r\n";
       }
       // dd($content);
-      $fileName = "elect_logs-".$time_key.".txt";
+      $fileName = "elect_logs-".$start.".txt";
 
       $headers = [
         'Content-type' => 'text/plain',
@@ -58,26 +57,26 @@ class ExportExcelController extends Controller
 
     public function export_water(Request $request)
     {
-      $time_key = $request->date;
-      $data = DB::table('waters')->where('TIME_KEY',$time_key)->get()->toArray();
-      // $key_array[] = array('TIME_KEY','ASSET_ID','COST_CENTER','METER_ID','M_UNIT','M_UNIT_PRICE','M_Cost_TOTAL','ACTIVITY_CODE');
+      $start = $request->start_date;
+      $end = $request->end_date;
+
+      $data = DB::table('waters')
+            ->select(DB::raw('sum(price) as price,business_process,product,functional_area,segment'))
+            ->whereBetween('date', [$start, $end])
+            ->groupBy('business_process','product','functional_area','segment')
+            ->get()
+            ->toArray();
+      // dd($data);
 
       $content = "";
       foreach($data as $value => $key){
-        if($key->TIME_KEY == $key->M_UNIT){
-          $content .= $key->TIME_KEY."\r\n";
-        }else{
-          $content .= $key->TIME_KEY."\t";
-          $content .= $key->ASSET_ID."\t";
-          $content .= $key->COST_CENTER."\t";
-          $content .= $key->METER_ID."\t";
-          $content .= $key->M_UNIT."\t";
-          $content .= $key->M_UNIT_PRICE."\t";
-          $content .= $key->M_Cost_TOTAL."\t";
-          $content .= $key->ACTIVITY_CODE."\r\n";
-        }
+        $content .= $key->price."\t";
+        $content .= $key->business_process."\t";
+        $content .= $key->product."\t";
+        $content .= $key->functional_area."\t";
+        $content .= $key->segment."\r\n";
       }
-      $fileName = "water_logs-".$time_key.".txt";
+      $fileName = "water_logs-".$start.".txt";
 
       $headers = [
         'Content-type' => 'text/plain',

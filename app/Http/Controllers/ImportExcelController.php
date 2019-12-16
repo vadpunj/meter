@@ -11,40 +11,52 @@ use Illuminate\Support\Facades\Auth;
 use App\Log_user;
 use App\Electric;
 use App\Water;
+use App\Original;
 class ImportExcelController extends Controller
 {
     public function index_electric()
     {
-      $data = Electric::groupBy('TIME_KEY')
-        ->selectRaw('TIME_KEY,sum(M_UNIT) as M_UNIT, sum(M_UNIT_PRICE) as M_UNIT_PRICE,sum(M_Cost_TOTAL) as M_Cost_TOTAL')
-        ->orderBy('TIME_KEY','DESC')
-        ->first();
-      return view('import_excel', ['type' => 'electric','data' => $data]);
+      $today = date('Y-m-t');
+      $before = date('Y-m-01', strtotime("-1 month"));
+
+      $data = Electric::groupBy(DB::raw('MONTH(date),YEAR(date),business_process,product,functional_area,segment'))
+        ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price,business_process,product,functional_area,segment')
+        ->whereBetween('date', [$before, $today])
+        ->get()
+        ->toArray();
+
+      $data2 = Electric::groupBy(DB::raw('MONTH(date),YEAR(date)'))
+        ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price')
+        ->whereBetween('date', [$before, $today])
+        ->get()
+        ->toArray();
+      // return view('import_excel', ['type' => 'electric','data' => $data]);
+
+      return view('import_excel', ['type' => 'electric','data' => $data, 'data2' => $data2]);
     }
 
     public function import_electric(Request $request)
     {
       set_time_limit(0);
       $this->validate($request, [
-        'select_file'  => 'required|mimes:xls,xlsx',
-        'time_key' => 'required|numeric'
+        'select_file'  => 'required|mimes:xlsx'
       ]);
       // delete ก่อน insert
-      $delete_data = Electric::where('TIME_KEY',$request->time_key)->delete();
-
+      // $delete_data = Electric::where('TIME_KEY',$request->time_key)->delete();
      $path = $request->file('select_file')->getRealPath();
      $name = $request->file('select_file')->getClientOriginalName();
      $pathreal = Storage::disk('log')->getAdapter()->getPathPrefix();
      $data = Excel::load($path)->get();
+     // dd($data);
 
      $insert_log = new Log_user;
-     $insert_log->user_name = Auth::user()->emp_id;
+     $insert_log->user_id = Auth::user()->emp_id;
      // $insert_log->user_name = 'phats';
      $insert_log->path = $pathreal.$name;
      $insert_log->type_log = 'electric';
      $insert_log->save();
 
-     $key_name = ['TIME_KEY','ASSET_ID','COST_CENTER','METER_ID','M_UNIT','M_UNIT_PRICE','M_Cost_TOTAL','ACTIVITY_CODE'];
+     $key_name = ['bill_id','meter_id','date','price','costcenter','gl','business_process','product','functional_area','segment'];
 
      if($data->count() > 0)
      {
@@ -59,18 +71,21 @@ class ImportExcelController extends Controller
         $i++;
        }
       }
+// dd($insert_data);
       if(!empty($insert_data))
       {
         for($j = 0; $j < count($insert_data); $j++ ){
           $insert = new Electric;
-          $insert->TIME_KEY = $insert_data[$j++]['TIME_KEY'];
-          $insert->ASSET_ID = $insert_data[$j++]['ASSET_ID'];
-          $insert->COST_CENTER = $insert_data[$j++]['COST_CENTER'];
-          $insert->METER_ID = $insert_data[$j++]['METER_ID'];
-          $insert->M_UNIT = $insert_data[$j++]['M_UNIT'];
-          $insert->M_UNIT_PRICE = round($insert_data[$j++]['M_UNIT_PRICE'],2);
-          $insert->M_Cost_TOTAL = round($insert_data[$j++]['M_Cost_TOTAL'],2);
-          $insert->ACTIVITY_CODE = $insert_data[$j]['ACTIVITY_CODE'];
+          $insert->bill_id = $insert_data[$j++]['bill_id'];
+          $insert->meter_id = $insert_data[$j++]['meter_id'];
+          $insert->date = $insert_data[$j++]['date'];
+          $insert->price = round($insert_data[$j++]['price'],2);
+          $insert->costcenter = $insert_data[$j++]['costcenter'];
+          $insert->gl = $insert_data[$j++]['gl'];
+          $insert->business_process = $insert_data[$j++]['business_process'];
+          $insert->product = $insert_data[$j++]['product'];
+          $insert->functional_area = $insert_data[$j++]['functional_area'];
+          $insert->segment = $insert_data[$j]['segment'];
           $insert->save();
         }
 
@@ -81,22 +96,34 @@ class ImportExcelController extends Controller
 
     public function index_water()
     {
-      $data = Water::groupBy('TIME_KEY')
-        ->selectRaw('TIME_KEY,sum(M_UNIT) as M_UNIT, sum(M_UNIT_PRICE) as M_UNIT_PRICE,sum(M_Cost_TOTAL) as M_Cost_TOTAL')
-        ->orderBy('TIME_KEY','DESC')
-        ->first();
-      return view('import_excel', ['type' => 'water','data' => $data]);
+      $today = date('Y-m-t');
+      $before = date('Y-m-01', strtotime("-1 month"));
+
+      $data = Water::groupBy(DB::raw('MONTH(date),YEAR(date),business_process,product,functional_area,segment'))
+        ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price,business_process,product,functional_area,segment')
+        ->whereBetween('date', [$before, $today])
+        ->get()
+        ->toArray();
+
+      $data2 = Water::groupBy(DB::raw('MONTH(date),YEAR(date)'))
+        ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price')
+        ->whereBetween('date', [$before, $today])
+        ->get()
+        ->toArray();
+        // dd($data2);
+        // dd($data->month);
+      // return view('import_excel', ['type' => 'water','data' => $data]);
+      return view('import_excel', ['type' => 'water','data' => $data ,'data2' => $data2]);
     }
 
     public function import_water(Request $request)
     {
       set_time_limit(0);
      $this->validate($request, [
-      'select_file'  => 'required|mimes:xls,xlsx',
-      'time_key' => 'required|numeric'
+      'select_file'  => 'required|mimes:xlsx'
      ]);
 
-     $delete_data = Water::where('TIME_KEY',$request->time_key)->delete();
+     // $delete_data = Water::where('TIME_KEY',$request->time_key)->delete();
 
      $path = $request->file('select_file')->getRealPath();
      $name = $request->file('select_file')->getClientOriginalName();
@@ -104,12 +131,12 @@ class ImportExcelController extends Controller
      $data = Excel::load($path)->get();
      // เก็บข้อมูลว่าใครเป็นคน insert file เข้าระบบ
      $insert_log = new Log_user;
-     $insert_log->user_name = Auth::user()->emp_id;
+     $insert_log->user_id = Auth::user()->emp_id;
      // $insert_log->user_name = 'phats';
      $insert_log->path = $pathreal.$name;
      $insert_log->type_log = 'water';
      $insert_log->save();
-     $key_name = ['TIME_KEY','ASSET_ID','COST_CENTER','METER_ID','M_UNIT','M_UNIT_PRICE','M_Cost_TOTAL','ACTIVITY_CODE'];
+     $key_name = ['bill_id','meter_id','date','price','costcenter','gl','business_process','product','functional_area','segment'];
 
      if($data->count() > 0)
      {
@@ -128,22 +155,90 @@ class ImportExcelController extends Controller
       {
         for($j = 0; $j < count($insert_data); $j++ ){
           $insert = new Water;
-          $insert->TIME_KEY = $insert_data[$j++]['TIME_KEY'];
-          $insert->ASSET_ID = $insert_data[$j++]['ASSET_ID'];
-          $insert->COST_CENTER = $insert_data[$j++]['COST_CENTER'];
-          $insert->METER_ID = $insert_data[$j++]['METER_ID'];
-          $insert->M_UNIT = $insert_data[$j++]['M_UNIT'];
-          $insert->M_UNIT_PRICE = round($insert_data[$j++]['M_UNIT_PRICE'],2);
-          $insert->M_Cost_TOTAL = round($insert_data[$j++]['M_Cost_TOTAL'],2);
-          $insert->ACTIVITY_CODE = $insert_data[$j]['ACTIVITY_CODE'];
+          $insert->bill_id = $insert_data[$j++]['bill_id'];
+          $insert->meter_id = $insert_data[$j++]['meter_id'];
+          $insert->date = $insert_data[$j++]['date'];
+          $insert->price = round($insert_data[$j++]['price'],2);
+          $insert->costcenter = $insert_data[$j++]['costcenter'];
+          $insert->gl = $insert_data[$j++]['gl'];
+          $insert->business_process = $insert_data[$j++]['business_process'];
+          $insert->product = $insert_data[$j++]['product'];
+          $insert->functional_area = $insert_data[$j++]['functional_area'];
+          $insert->segment = $insert_data[$j]['segment'];
           $insert->save();
         }
+
 
       }
      }
      return back()->with('success', 'Excel Data Imported successfully.');
     }
+    public function index_original()
+    {
+      // dd(2323);
+      $data = Original::get();
+      return view('source_import',['data' => $data]);
+    }
 
+    public function import_original(Request $request)
+    {
+      set_time_limit(0);
+     $this->validate($request, [
+      'select_file'  => 'required|mimes:xlsx'
+     ]);
+
+     // $delete_data = Water::where('TIME_KEY',$request->time_key)->delete();
+
+     $path = $request->file('select_file')->getRealPath();
+     $name = $request->file('select_file')->getClientOriginalName();
+     $pathreal = Storage::disk('log')->getAdapter()->getPathPrefix();
+     $data = Excel::load($path)->get();
+     // เก็บข้อมูลว่าใครเป็นคน insert file เข้าระบบ
+     $insert_log = new Log_user;
+     $insert_log->user_id = Auth::user()->emp_id;
+     // $insert_log->user_name = 'phats';
+     $insert_log->path = $pathreal.$name;
+     $insert_log->type_log = 'original';
+     $insert_log->save();
+     $key_name = ['meter_id','utility','utility_type','business_id','node1','node2','costcenter','gl','business_process','product','functional_area','segment','key1'];
+
+     if($data->count() > 0)
+     {
+       $num = 0;
+      foreach($data->toArray() as $key => $value)
+      {
+        $i = 0;
+       foreach($value as $row)
+       {
+        $insert_data[$num][$key_name[$i]] = $row;
+        $num++;
+        $i++;
+       }
+      }
+      // dd($insert_data);
+      if(!empty($insert_data))
+      {
+        for($j = 0; $j < count($insert_data); $j++ ){
+          $insert = new Original;
+          $insert->meter_id = $insert_data[$j++]['meter_id'];
+          $insert->utility = $insert_data[$j++]['utility'];
+          $insert->utility_type = $insert_data[$j++]['utility_type'];
+          $insert->business_id = round($insert_data[$j++]['business_id'],2);
+          $insert->node1 = $insert_data[$j++]['node1'];
+          $insert->node2 = $insert_data[$j++]['node2'];
+          $insert->costcenter = round($insert_data[$j++]['costcenter'],2);
+          $insert->gl = $insert_data[$j++]['gl'];
+          $insert->business_process = $insert_data[$j++]['business_process'];
+          $insert->product = $insert_data[$j++]['product'];
+          $insert->functional_area = $insert_data[$j++]['functional_area'];
+          $insert->segment = $insert_data[$j++]['segment'];
+          $insert->key1 = $insert_data[$j]['key1'];
+          $insert->save();
+        }
+      }
+    }
+     return back()->with('success', 'Excel Data Imported successfully.');
+    }
 
 
 }

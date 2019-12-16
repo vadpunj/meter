@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Transaction;
 use App\Branch;
 use App\Delete;
+use App\Log_user;
+use App\Original;
 use DB;
 use Excel;
 use Func;
@@ -199,5 +201,52 @@ class InputController extends Controller
         return response()->json(['success' => 'ไม่มีสาขาที่กรอก']);
       }
 
+    }
+
+    public function add_source()
+    {
+      return view('source_add');
+    }
+
+    public function post_source(Request $request)
+    {
+      $meter_id = $request->meter_id;
+      $utility = $request->utility;
+      $utility_type = $request->utility_type;
+      $business_id = $request->business_id;
+      $node1 = $request->node1;
+      $node2 = $request->node2;
+      $costcenter = $request->costcenter;
+      $gl = $request->gl;
+      $business_process = $request->business_process;
+      $product = $request->product;
+      $functional_area = $request->functional_area;
+      $segment = $request->segment;
+      $key1 = $request->key1;
+
+      $insert = new Original;
+      $insert->meter_id = $meter_id;
+      $insert->utility = $utility;
+      $insert->utility_type = $utility_type;
+      $insert->business_id = $business_id;
+      $insert->node1 = $node1;
+      $insert->node2 = $node2;
+      $insert->costcenter = $costcenter;
+      $insert->gl = $gl;
+      $insert->business_process = $business_process;
+      $insert->product = $product;
+      $insert->functional_area = $functional_area;
+      $insert->segment = $segment;
+      $insert->key1 = $key1;
+      $insert->save();
+
+      $insert_log = new Log_user;
+      $insert_log->user_id = Auth::user()->emp_id;
+      // $insert_log->user_name = 'phats';
+      $insert_log->path = "";
+      $insert_log->type_log = 'original';
+      $insert_log->save();
+
+      return view('source_add');
     }
 }

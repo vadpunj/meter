@@ -17,6 +17,12 @@ class Func{
 
   }
 
+  public static function get_name_month($value)
+  {
+    $month = ['','ม.ค.','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return $month[$value];
+  }
+
   public static function get_name_user($id)
   {
     $row = User::where('emp_id',$id)->first();

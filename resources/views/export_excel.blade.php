@@ -51,49 +51,33 @@
         </div>
         <table class="table table-responsive-sm table-bordered myTable">
           <thead>
-              <th>TIME KEY</th>
-              <th>ASSET ID</th>
-              <th>COST CENTER</th>
-              <th>METER ID</th>
-              <th>M UNIT</th>
-              <th>M UNIT PRICE</th>
-              <th>M Cost TOTAL</th>
-              <th>ACTIVITY CODE</th>
-              <th>Create Date</th>
+            <th>วันที่</th>
+            <th>เลขที่บิล</th>
+            <th>หมายเลขผู้ใช้ไฟฟ้า</th>
+            <th>จำนวนเงิน</th>
+            <th>Costcenter</th>
+            <th>GL</th>
+            <th>Business Process</th>
+            <th>Product</th>
+            <th>Fuctonal Area</th>
+            <th>Segment</th>
           </thead>
           <tbody>
-            <?php
-              $sum_m_unit = 0;
-              $sum_M_UNIT_PRICE = 0;
-              $sum_M_Cost_TOTAL = 0;
-             ?>
          @foreach($data as $row)
-         <?php
-            $sum_m_unit += $row->M_UNIT;
-            $sum_M_UNIT_PRICE += $row->M_UNIT_PRICE;
-            $sum_M_Cost_TOTAL += $row->M_Cost_TOTAL;
-          ?>
            <tr>
-            <td>{{ $row->TIME_KEY }}</td>
-            <td>{{ $row->ASSET_ID }}</td>
-            <td>{{ $row->COST_CENTER }}</td>
-            <td>{{ $row->METER_ID }}</td>
-            <td align="right">{{ number_format($row->M_UNIT) }}</td>
-            <td align="right">{{ $row->M_UNIT_PRICE }}</td>
-            <td align="right">{{ number_format($row->M_Cost_TOTAL,2) }}</td>
-            <td align="center">{{ $row->ACTIVITY_CODE }}</td>
-            <td align="center">{{ Func::get_date($row->created_at) }}</td>
+            <td>{{ $row->date }}</td>
+            <td>{{ $row->bill_id }}</td>
+            <td>{{ $row->meter_id }}</td>
+            <td align="right">{{ number_format($row->price,2) }}</td>
+            <td align="center">{{ $row->costcenter }}</td>
+            <td>{{ $row->gl }}</td>
+            <td align="center">{{ $row->business_process }}</td>
+            <td align="center">{{ $row->product }}</td>
+            <td align="center">{{ $row->functional_area }}</td>
+            <td align="center">{{ $row->segment }}</td>
            </tr>
          @endforeach
           </tbody>
-          {{--<tfooter>
-            <tr>
-              <td colspan="4">Sum</td>
-              <td>{{ number_format($sum_m_unit,2) }}</td>
-              <td>{{ number_format($sum_M_UNIT_PRICE,2) }}</td>
-              <td>{{ number_format($sum_M_Cost_TOTAL,2) }}</td>
-            </tr>
-          </tfooter>--}}
         </table>
       </div>
      </div>
@@ -112,10 +96,24 @@
         <form action="{{ url($type.'/export_excel/export') }}" method="post">
           {{ csrf_field() }}
           <div class="modal-body">
-            <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="email-input">Time Key</label>
-              <div class="col-md-9">
-                <input class="form-control" type="number" name="date">
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label for="city">วันที่</label>
+                <input class="form-control @error('start_date') is-invalid @enderror" type="date" name="start_date">
+                @error('start_date')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="city">ถึง</label>
+                <input class="form-control @error('start_date') is-invalid @enderror" type="date" name="end_date">
+                @error('start_date')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
               </div>
             </div>
           </div>
@@ -124,9 +122,7 @@
           </div>
         </form>
       </div>
-     <!-- /.modal-content-->
     </div>
-   <!-- /.modal-dialog-->
   </div>
   @endsection
 

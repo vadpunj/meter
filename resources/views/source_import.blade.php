@@ -21,6 +21,9 @@
     .bold{
       font-weight: bold;
     }
+    div.dataTables_wrapper {
+        width: 100%;
+    }
   </style>
 @endsection
 @section('content')
@@ -29,7 +32,7 @@
     <li class="breadcrumb-item">
       <a href="#">หน้าแรก</a>
     </li>
-    <li class="breadcrumb-item active">Import file {{ $type }}</li>
+    <li class="breadcrumb-item active">Import file original</li>
   </ol>
    <h3 align="center">Import Excel File</h3>
 
@@ -51,15 +54,8 @@
    </div>
    @endif
    <div class="card-body">
-   <form method="post" enctype="multipart/form-data" action="{{ url($type.'/import_excel/import') }}">
+   <form method="post" enctype="multipart/form-data" action="{{ url('source/import_excel/import') }}">
     {{ csrf_field() }}
-    {{--<div class="form-group row">
-      <label class="col-md-2 col-form-label" for="date-input">Time Key</label>
-      <div class="col-md-4">
-        <input class="form-control" name="time_key" type="text" required>
-
-      </div>
-    </div>--}}
     <div class="form-group row">
       <label class="col-md-2 col-form-label" for="date-input">Select File</label>
       <div class="col-md-4">
@@ -71,83 +67,66 @@
     </div><br>
    </form>
    <div class="row">
-   <table class="table table-responsive-sm table-bordered" style="width: 70%;overflow-x: auto;margin-right: 27px;">
-     <thead>
-       <tr>
-         <th width="15%">เดือน-ปี</th>
-         <th>Price</th>
+     <table class="table table-responsive-sm table-bordered " id="myTable" style="margin-bottom:0px;">
+       <thead>
+         <th>หมายเลขผู้ใช้ไฟฟ้า</th>
+         <th>สาธารณูปโภค</th>
+         <th>ประเภทสาธารณูปโภค</th>
+         <th>รหัสหน่วยธุรกิจ</th>
+         <th>ที่ตั้ง/โหนด1</th>
+         <th>ที่ตั้ง/โหนด2</th>
+         <th>Costcenter</th>
+         <th>GL</th>
          <th>Business Process</th>
          <th>Product</th>
-         <th>Functional Area</th>
+         <th>Fuctonal Area</th>
          <th>Segment</th>
-       </tr>
-     </thead>
-     @if(!empty($data))
-     <tbody>
-       <?php $sum_price = 0; ?>
-       @foreach($data as $datas)
-       <?php $sum_price += $datas['price']; ?>
-       <tr>
-         <td>{{ Func::get_name_month($datas['month'])." ".$datas['year']}}</td>
-         <td align="center">{{ $datas['business_process'] }}</td>
-         <td align="center">{{ $datas['product'] }}</td>
-         <td align="center">{{ $datas['functional_area'] }}</td>
-         <td align="center">{{ $datas['segment'] }}</td>
-         <td align="right">{{ number_format($datas['price'],2) }}</td>
-       </tr>
-       @endforeach
-       <tr>
-         <td class="bold" align="center" colspan="5">Sum</td>
-         <td class="bold" align="right">{{ number_format($sum_price,2) }}</td>
-       </tr>
-     </tbody>
-     @else
-     <tbody>
-       <tr>
-         <td colspan="6" align="center">{{ 'ไม่มีข้อมูล' }}</td>
-       </tr>
-     </tbody>
-     @endif
-   </table>
-   <table class="table table-responsive-sm table-bordered" style="width: 24%;overflow-x: auto">
-     <thead>
-       <tr>
-         <th>เดือน-ปี</th>
-         <th>Price</th>
-       </tr>
-     </thead>
-     @if(!empty($data2))
-     <tbody>
-       <?php $sum_price = 0; ?>
-       @foreach($data2 as $datas2)
-      <?php $sum_price += $datas2['price']; ?>
-       <tr>
-         <td>{{ Func::get_name_month($datas2['month'])." ".$datas2['year']}}</td>
-         <td align="right">{{ number_format($datas2['price'],2) }}</td>
-       </tr>
-       @endforeach
-       <tr>
-         <td class="bold" align="center">Sum</td>
-         <td class="bold" align="right">{{ number_format($sum_price,2) }}</td>
-       </tr>
-     </tbody>
-     @else
-     <tbody>
-       <tr>
-         <td colspan="4" align="center">{{ 'ไม่มีข้อมูล' }}</td>
-       </tr>
-     </tbody>
-     @endif
-   </table>
- </div>
+         <th>Reference Key 1</th>
+       </thead>
+       <tbody>
+      @foreach($data as $row)
+        <tr>
+         <td>{{ $row->meter_id }}</td>
+         <td>{{ $row->utility }}</td>
+         <td>{{ $row->utility_type }}</td>
+         <td>{{ $row->business_id }}</td>
+         <td>{{ $row->node1 }}</td>
+         <td>{{ $row->node2 }}</td>
+         <td>{{ $row->costcenter }}</td>
+         <td>{{ $row->gl }}</td>
+         <td>{{ $row->business_process }}</td>
+         <td>{{ $row->product }}</td>
+         <td>{{ $row->functional_area }}</td>
+         <td>{{ $row->segment }}</td>
+         <td>{{ $row->key1 }}</td>
+        </tr>
+      @endforeach
+       </tbody>
+     </table>
+
+   </div>
 </main>
 @endsection
 
 @section('js')
   <script src="{{ asset('admin/node_modules/jquery/dist/jquery.min.js') }}"></script>
+  <script src="{{ asset('admin/js/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('admin/node_modules/popper.js/dist/umd/popper.min.js') }}"></script>
   <script src="{{ asset('admin/node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
   <script src="{{ asset('admin/node_modules/pace-progress/pace.min.js') }}"></script>
   <script src="{{ asset('admin/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js') }}"></script>
   <script src="{{ asset('admin/node_modules/@coreui/coreui/dist/js/coreui.min.js') }}"></script>
+  <!-- <script type="text/javascript">
+    $('.myTable').DataTable({
+      select:true,
+      scrollCollapse: true,
+    });
+  </script> -->
+  <script>
+  $(document).ready(function() {
+    $('#myTable').DataTable({
+      scrollX:true
+    });
+  });
+</script>
 @endsection

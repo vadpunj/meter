@@ -15,14 +15,16 @@ class CreateElectricsTable extends Migration
     {
         Schema::create('electrics', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('TIME_KEY');
-            $table->char('ASSET_ID')->nullable();
-            $table->char('COST_CENTER');
-            $table->char('METER_ID');
-            $table->integer('M_UNIT');
-            $table->double('M_UNIT_PRICE');
-            $table->double('M_Cost_TOTAL')->nullable();
-            $table->char('ACTIVITY_CODE');
+            $table->string('bill_id');
+            $table->string('meter_id');
+            $table->date('date');
+            $table->double('price');
+            $table->string('costcenter');
+            $table->string('gl');
+            $table->string('business_process');
+            $table->string('product');
+            $table->string('functional_area');
+            $table->string('segment');
             $table->timestamps();
         });
     }
