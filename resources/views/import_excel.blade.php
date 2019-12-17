@@ -64,6 +64,11 @@
       <label class="col-md-2 col-form-label" for="date-input">Select File</label>
       <div class="col-md-4">
         <input id="file-input" type="file" name="select_file"><span class="text-muted">.xslx</span>
+        @error('select_file')
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+          </span>
+        @enderror
       </div>
     </div>
     <div class="col-md-4">

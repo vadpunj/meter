@@ -21,10 +21,10 @@
           </li>
         </ul>
       </li>
-      <li class="nav-item">
+      {{--<li class="nav-item">
         <a class="nav-link {{ (request()->is('/branch')) ? 'active' : '' }}" href="{{ route('branch') }}">
           <i class="nav-icon icon-pencil"></i> สาขา</a>
-      </li>
+      </li>--}}
       {{--<li class="nav-item nav-dropdown {{ (request()->is('/home/*')) ? 'show open' : '' }}">
         <a class="nav-link nav-dropdown-toggle" href="#">
           <i class="nav-icon icon-pencil"></i> ศูนย์ต้นทุน</a>

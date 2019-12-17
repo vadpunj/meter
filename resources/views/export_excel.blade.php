@@ -39,7 +39,7 @@
    @endif
     <div class="panel-body">
       <div class="card-body">
-       <h3 align="center">Export File</h3>
+       <h3 align="center">Export File {{ucfirst($type)}}</h3>
         <div class="form-group">
           <button class="btn btn-primary mb-1" type="button" data-toggle="modal" data-target="#myModal">Export</button>
           {{--<a class="btn btn-primary" href="{{url($type.'/export_excel/export')}}">Export</a>--}}
