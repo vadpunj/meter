@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-<title>Import page</title>
+<title>Import Original page</title>
 @endsection
 
 @section('css')
@@ -59,7 +59,7 @@
     <div class="form-group row">
       <label class="col-md-2 col-form-label" for="date-input">Select File</label>
       <div class="col-md-4">
-        <input id="file-input" type="file" name="select_file"><span class="text-muted">.xslx</span>
+        <input id="file-input" type="file" name="select_file"><span class="text-muted">.xlsx</span>
       </div>
     </div>
     <div class="col-md-4">

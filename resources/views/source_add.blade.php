@@ -32,6 +32,55 @@
       <li class="breadcrumb-item active">ศูนย์ต้นทุน</li>
     </ol>
     <!-- end breadcrumb -->
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+            <div class="card-header word">
+              @if (session()->has('notification'))
+                <div class="notification">
+                  {!! session('notification') !!}
+                </div>
+              @endif
+            <i class="fa fa-align-justify"></i> กรอกสาธารณูปโภค</div>
+              <form class="form-horizontal" action="{{ route('post_utility') }}" method="post">
+                @csrf
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label class="col-md-2 col-form-label">สาธารณูปโภค</label>
+                    <div class="form-group col-sm-4">
+                      <div class="input-group">
+                        <input class="form-control @error('utility') is-invalid @enderror" type="text" name="utility">
+                        @error('utility')
+                          <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
+                      </div>
+                    </div>
+                    <label class="col-md-2 col-form-label">ประเภทสาธารณูปโภค</label>
+                    <div class="form-group col-sm-4">
+                      <div class="input-group">
+                        <input class="form-control @error('utility_type') is-invalid @enderror" type="text" name="utility_type">
+                        @error('utility_type')
+                          <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2 form-group form-actions">
+                  <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   <div class="container-fluid">
     <div class="animated fadeIn">
       <div class="row">
@@ -61,29 +110,22 @@
                   </div>
                   <label class="col-md-2 col-form-label">สาธารณูปโภค</label>
                   <div class="form-group col-sm-4">
-                    <div class="input-group">
-                      <input class="form-control @error('utility') is-invalid @enderror" type="text" name="utility">
-                      @error('utility')
-                        <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
-                    </div>
+                    <select class="form-control" id="utility" name="utility" onchange="myfunc()">
+                      <option value="">----Please select----</option>
+                      @foreach($data as $value)
+                      <option value="{{ $value->utility_type.",".$value->utility }}">{{ $value->utility }}</option>
+                      @endforeach
+                    </select>
                   </div>
                 </div>
                 <div class="form-group row">
                   <label class="col-md-2 col-form-label">ประเภทสาธารณูปโภค</label>
                   <div class="form-group col-sm-4">
-                    <input class="form-control @error('utility_type') is-invalid @enderror" type="text" name="utility_type">
-                    @error('utility_type')
-                      <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
+                    <p class="form-control" id="demo"></p>
                   </div>
                   <label class="col-md-2 col-form-label">รหัสหน่วยธุรกิจ</label>
                   <div class="form-group col-sm-4">
-                    <input class="form-control @error('business_id') is-invalid @enderror" type="text" name="business_id">
+                    <input class="form-control @error('business_id') is-invalid @enderror" type="text" name="business_id" >
                     @error('business_id')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -103,7 +145,7 @@
                   </div>
                   <label class="col-md-2 col-form-label">ที่ตั้ง/โหนด2</label>
                   <div class="form-group col-sm-4">
-                    <input class="form-control @error('node2') is-invalid @enderror" type="text" name="node2" onchange="myfunc()">
+                    <input class="form-control @error('node2') is-invalid @enderror" type="text" name="node2">
                     @error('node2')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -197,6 +239,14 @@
 
 @section('js')
   <script src="{{ asset('admin/node_modules/jquery/dist/jquery.min.js') }}"></script>
+  <script>
+  function myfunc(){
+    var uti = document.getElementById("utility").value;
+    var struti = uti.split(",");
+    document.getElementById("demo").innerHTML = struti[0];
+  }
+
+  </script>
   <script src="{{ asset('admin/node_modules/popper.js/dist/umd/popper.min.js') }}"></script>
   <script src="{{ asset('admin/node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
   <script src="{{ asset('admin/node_modules/pace-progress/pace.min.js') }}"></script>

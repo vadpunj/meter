@@ -12,6 +12,7 @@ use App\Branch;
 use App\Delete;
 use App\Log_user;
 use App\Original;
+use App\Utility;
 use DB;
 use Excel;
 use Func;
@@ -205,14 +206,16 @@ class InputController extends Controller
 
     public function add_source()
     {
-      return view('source_add');
+      $data = Utility::get();
+      return view('source_add',['data' => $data]);
     }
 
     public function post_source(Request $request)
     {
       $meter_id = $request->meter_id;
-      $utility = $request->utility;
-      $utility_type = $request->utility_type;
+      $arr_uti = explode(",",$request->utility);
+      $utility = $arr_uti[1];
+      $utility_type = $arr_uti[0];
       $business_id = $request->business_id;
       $node1 = $request->node1;
       $node2 = $request->node2;
@@ -247,6 +250,32 @@ class InputController extends Controller
       $insert_log->type_log = 'original';
       $insert_log->save();
 
-      return view('source_add');
+      return redirect()->route('add_source');
+    }
+
+    public function post_utility(Request $request)
+    {
+
+      $utility = $request->utility;
+      $utility_type = $request->utility_type;
+
+      $this->validate($request,[
+         'utility' => 'required',
+         'utility_type' => 'required|numeric'
+      ]);
+
+      $insert = new Utility;
+      $insert->utility = $utility;
+      $insert->utility_type = $utility_type;
+      $insert->save();
+
+      $insert_log = new Log_user;
+      $insert_log->user_id = Auth::user()->emp_id;
+      // $insert_log->user_name = 'phats';
+      $insert_log->path = "";
+      $insert_log->type_log = 'utility';
+      $insert_log->save();
+
+      return redirect()->route('add_source');
     }
 }

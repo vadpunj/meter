@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/import_excel/import', 'ImportExcelController@import_original');
     Route::get('/add', 'InputController@add_source')->name('add_source');
     Route::post('/add', 'InputController@post_source')->name('post_source');
+    Route::post('/utility', 'InputController@post_utility')->name('post_utility');
   });
   Route::group(['prefix' => 'home'], function(){
     Route::get('/add', 'InputController@get_home')->name('homeadd');
