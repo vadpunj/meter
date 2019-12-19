@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Log_user;
 use App\Electric;
-use App\Water;
 use App\Original;
+use App\Utility;
+use App\Water;
+
 class ImportExcelController extends Controller
 {
     public function index_electric()
@@ -43,54 +45,49 @@ class ImportExcelController extends Controller
       ]);
       // delete ก่อน insert
       // $delete_data = Electric::where('TIME_KEY',$request->time_key)->delete();
-     $path = $request->file('select_file')->getRealPath();
-     $name = $request->file('select_file')->getClientOriginalName();
-     $pathreal = Storage::disk('log')->getAdapter()->getPathPrefix();
-     $data = Excel::load($path)->get();
+      $path = $request->file('select_file')->getRealPath();
+      $name = $request->file('select_file')->getClientOriginalName();
+      $pathreal = Storage::disk('log')->getAdapter()->getPathPrefix();
+      $data = Excel::load($path)->get();
      // dd($data);
 
-     $insert_log = new Log_user;
-     $insert_log->user_id = Auth::user()->emp_id;
+      $insert_log = new Log_user;
+      $insert_log->user_id = Auth::user()->emp_id;
      // $insert_log->user_name = 'phats';
-     $insert_log->path = $pathreal.$name;
-     $insert_log->type_log = 'electric';
-     $insert_log->save();
+      $insert_log->path = $pathreal.$name;
+      $insert_log->type_log = 'electric';
+      $insert_log->save();
 
-     $key_name = ['bill_id','meter_id','date','price','costcenter','gl','business_process','product','functional_area','segment'];
+      $key_name = ['bill_id','meter_id','date','price','costcenter','gl','business_process','product','functional_area','segment'];
 
-     if($data->count() > 0)
-     {
-       $num = 0;
-      foreach($data->toArray() as $key => $value)
-      {
+      if($data->count() > 0){
+        $num = 0;
+        foreach($data->toArray() as $key => $value){
         $i = 0;
-       foreach($value as $row)
-       {
-        $insert_data[$num][$key_name[$i]] = $row;
-        $num++;
-        $i++;
-       }
-      }
-// dd($insert_data);
-      if(!empty($insert_data))
-      {
-        for($j = 0; $j < count($insert_data); $j++ ){
-          $insert = new Electric;
-          $insert->bill_id = $insert_data[$j++]['bill_id'];
-          $insert->meter_id = $insert_data[$j++]['meter_id'];
-          $insert->date = $insert_data[$j++]['date'];
-          $insert->price = round($insert_data[$j++]['price'],2);
-          $insert->costcenter = $insert_data[$j++]['costcenter'];
-          $insert->gl = $insert_data[$j++]['gl'];
-          $insert->business_process = $insert_data[$j++]['business_process'];
-          $insert->product = $insert_data[$j++]['product'];
-          $insert->functional_area = $insert_data[$j++]['functional_area'];
-          $insert->segment = $insert_data[$j]['segment'];
-          $insert->save();
+          foreach($value as $row){
+            $insert_data[$num][$key_name[$i]] = $row;
+            $num++;
+            $i++;
+          }
         }
-
+// dd($insert_data);
+        if(!empty($insert_data)){
+          for($j = 0; $j < count($insert_data); $j++ ){
+            $insert = new Electric;
+            $insert->bill_id = $insert_data[$j++]['bill_id'];
+            $insert->meter_id = $insert_data[$j++]['meter_id'];
+            $insert->date = $insert_data[$j++]['date'];
+            $insert->price = round($insert_data[$j++]['price'],2);
+            $insert->costcenter = $insert_data[$j++]['costcenter'];
+            $insert->gl = $insert_data[$j++]['gl'];
+            $insert->business_process = $insert_data[$j++]['business_process'];
+            $insert->product = $insert_data[$j++]['product'];
+            $insert->functional_area = $insert_data[$j++]['functional_area'];
+            $insert->segment = $insert_data[$j]['segment'];
+            $insert->save();
+          }
+        }
       }
-     }
      return back()->with('success', 'Excel Data Imported successfully.');
     }
 
@@ -110,9 +107,7 @@ class ImportExcelController extends Controller
         ->whereBetween('date', [$before, $today])
         ->get()
         ->toArray();
-        // dd($data2);
-        // dd($data->month);
-      // return view('import_excel', ['type' => 'water','data' => $data]);
+
       return view('import_excel', ['type' => 'water','data' => $data ,'data2' => $data2]);
     }
 
@@ -132,7 +127,6 @@ class ImportExcelController extends Controller
      // เก็บข้อมูลว่าใครเป็นคน insert file เข้าระบบ
      $insert_log = new Log_user;
      $insert_log->user_id = Auth::user()->emp_id;
-     // $insert_log->user_name = 'phats';
      $insert_log->path = $pathreal.$name;
      $insert_log->type_log = 'water';
      $insert_log->save();
@@ -183,60 +177,68 @@ class ImportExcelController extends Controller
     public function import_original(Request $request)
     {
       set_time_limit(0);
-     $this->validate($request, [
-      'select_file'  => 'required|mimes:xlsx'
-     ]);
+      $this->validate($request, [
+        'select_file'  => 'required|mimes:xlsx'
+      ]);
 
      // $delete_data = Water::where('TIME_KEY',$request->time_key)->delete();
 
-     $path = $request->file('select_file')->getRealPath();
-     $name = $request->file('select_file')->getClientOriginalName();
-     $pathreal = Storage::disk('log')->getAdapter()->getPathPrefix();
-     $data = Excel::load($path)->get();
+      $path = $request->file('select_file')->getRealPath();
+      $name = $request->file('select_file')->getClientOriginalName();
+      $pathreal = Storage::disk('log')->getAdapter()->getPathPrefix();
+      $data = Excel::load($path)->get();
      // เก็บข้อมูลว่าใครเป็นคน insert file เข้าระบบ
-     $insert_log = new Log_user;
-     $insert_log->user_id = Auth::user()->emp_id;
-     // $insert_log->user_name = 'phats';
-     $insert_log->path = $pathreal.$name;
-     $insert_log->type_log = 'original';
-     $insert_log->save();
-     $key_name = ['meter_id','utility','utility_type','business_id','node1','node2','costcenter','gl','business_process','product','functional_area','segment','key1'];
+      $insert_log = new Log_user;
+      $insert_log->user_id = Auth::user()->emp_id;
+      $insert_log->path = $pathreal.$name;
+      $insert_log->type_log = 'original';
+      $insert_log->save();
+      $key_name = ['meter_id','utility','utility_type','business_id','node1','node2','costcenter','gl','business_process','product','functional_area','segment','key1'];
 
-     if($data->count() > 0)
-     {
-       $num = 0;
-      foreach($data->toArray() as $key => $value)
-      {
-        $i = 0;
-       foreach($value as $row)
-       {
-        $insert_data[$num][$key_name[$i]] = $row;
-        $num++;
-        $i++;
-       }
-      }
+      if($data->count() > 0){
+        $num = 0;
+        foreach($data->toArray() as $key => $value){
+          $i = 0;
+          foreach($value as $row){
+            $insert_data[$num][$key_name[$i]] = $row;
+            $num++;
+            $i++;
+          }
+        }
       // dd($insert_data);
-      if(!empty($insert_data))
-      {
-        for($j = 0; $j < count($insert_data); $j++ ){
-          $insert = new Original;
-          $insert->meter_id = $insert_data[$j++]['meter_id'];
-          $insert->utility = $insert_data[$j++]['utility'];
-          $insert->utility_type = $insert_data[$j++]['utility_type'];
-          $insert->business_id = round($insert_data[$j++]['business_id'],2);
-          $insert->node1 = $insert_data[$j++]['node1'];
-          $insert->node2 = $insert_data[$j++]['node2'];
-          $insert->costcenter = round($insert_data[$j++]['costcenter'],2);
-          $insert->gl = $insert_data[$j++]['gl'];
-          $insert->business_process = $insert_data[$j++]['business_process'];
-          $insert->product = $insert_data[$j++]['product'];
-          $insert->functional_area = $insert_data[$j++]['functional_area'];
-          $insert->segment = $insert_data[$j++]['segment'];
-          $insert->key1 = $insert_data[$j]['key1'];
-          $insert->save();
+        if(!empty($insert_data)){
+          for($j = 0; $j < count($insert_data); $j++ ){
+            $insert = new Original;
+            $insert->meter_id = $insert_data[$j++]['meter_id'];
+            $insert->utility = $insert_data[$j++]['utility'];
+            $insert->utility_type = $insert_data[$j++]['utility_type'];
+            $insert->business_id = round($insert_data[$j++]['business_id'],2);
+            $insert->node1 = $insert_data[$j++]['node1'];
+            $insert->node2 = $insert_data[$j++]['node2'];
+            $insert->costcenter = round($insert_data[$j++]['costcenter'],2);
+            $insert->gl = $insert_data[$j++]['gl'];
+            $insert->business_process = $insert_data[$j++]['business_process'];
+            $insert->product = $insert_data[$j++]['product'];
+            $insert->functional_area = $insert_data[$j++]['functional_area'];
+            $insert->segment = $insert_data[$j++]['segment'];
+            $insert->key1 = $insert_data[$j]['key1'];
+            $insert->save();
+          }
         }
       }
-    }
+    // insert utility ที่มีในไฟล์ excel ลงตารางutility อัตโนมัติ
+    $all = DB::table('originals')
+          ->whereNotIn('utility_type', DB::table('utilities')->pluck('utility_type'))
+          ->select('utility_type','utility')
+          ->groupBy('utility_type','utility')
+          ->get()->toArray();
+          for($i = 0; $i < count($all); $i++){
+            $insert = new Utility;
+            $insert->utility = $all[$i]->utility;
+            $insert->utility_type = $all[$i]->utility_type;
+            $insert->save();
+          }
+
      return back()->with('success', 'Excel Data Imported successfully.');
     }
 
