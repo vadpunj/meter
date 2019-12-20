@@ -14,6 +14,8 @@
   <link href="{{ asset('admin/vendors/pace-progress/css/pace.min.css') }}" rel="stylesheet">
   <!-- Global site tag (gtag.js) - Google Analytics-->
   <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
+  <link href="{{ asset('admin/css/jquery.dataTables.css') }}" rel="stylesheet">
+  <script src="{{ asset('admin/js/jquery-1.12.0.js') }}"></script>
   <style>
     .word {
       color: #fff !important;
@@ -67,7 +69,7 @@
     </div><br>
    </form>
    <div class="row">
-     <table class="table table-responsive-sm table-bordered " id="myTable" style="margin-bottom:0px;">
+     <table class="table table-responsive-sm table-bordered " id="myTable">
        <thead>
          <th>หมายเลขผู้ใช้ไฟฟ้า</th>
          <th>สาธารณูปโภค</th>
