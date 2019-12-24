@@ -63,7 +63,7 @@ class ImportExcelController extends Controller
       if($data->count() > 0){
         $num = 0;
         foreach($data->toArray() as $key => $value){
-        $i = 0;
+          $i = 0;
           foreach($value as $row){
             $insert_data[$num][$key_name[$i]] = $row;
             $num++;
