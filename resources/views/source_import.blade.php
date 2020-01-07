@@ -90,15 +90,15 @@
         <tr>
          <td>{{ $row->meter_id }}</td>
          <td>{{ $row->utility }}</td>
-         <td>{{ $row->utility_type }}</td>
-         <td>{{ $row->business_id }}</td>
+         <td align="center">{{ $row->utility_type }}</td>
+         <td align="center">{{ $row->business_id }}</td>
          <td>{{ $row->node1 }}</td>
          <td>{{ $row->node2 }}</td>
-         <td>{{ $row->costcenter }}</td>
+         <td align="center">{{ $row->costcenter }}</td>
          <td>{{ $row->gl }}</td>
          <td>{{ $row->business_process }}</td>
          <td>{{ $row->product }}</td>
-         <td>{{ $row->functional_area }}</td>
+         <td align="center">{{ $row->functional_area }}</td>
          <td>{{ $row->segment }}</td>
          <td>{{ $row->key1 }}</td>
         </tr>

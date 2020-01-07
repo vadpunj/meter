@@ -214,6 +214,7 @@ class InputController extends Controller
     {
       $meter_id = $request->meter_id;
       $arr_uti = explode(",",$request->utility);
+      
       $utility = $arr_uti[1];
       $utility_type = $arr_uti[0];
       $business_id = $request->business_id;
