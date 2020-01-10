@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('admin/img/Logononame.png') }}" sizes="16x16">
     @section('title')
     @show
     <title>CoreUI Free Bootstrap Admin Template</title>
