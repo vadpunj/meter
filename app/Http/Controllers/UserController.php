@@ -24,7 +24,7 @@ class UserController extends Controller
         'name' => $request->name,
         'emp_id' => $request->emp_id
       ]);
-      return redirect()->back();
+      return redirect()->back('success', 'เพิ่มผู้ใช้แล้ว');
     }
     public function login()
     {
