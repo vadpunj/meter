@@ -87,6 +87,19 @@
                     </span>
                   @enderror
                 </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fa fa-usd"></i>
+                    </span>
+                  </div>
+                  <input class="form-control @error('center_money') is-invalid @enderror" type="text" placeholder="ศูนย์เงินทุน" name="center_money" value="{{ old('center_money') }}" required autocomplete="center_money">
+                  @error('center_money')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
 
                 <button class="btn btn-block btn-success" type="submit">Create Account</button>
               </div>

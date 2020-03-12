@@ -18,13 +18,15 @@ class UserController extends Controller
     {
       $this->validate($request, [
         'name' => 'required|min:4',
-        'emp_id' => 'required|numeric|unique:users'
+        'emp_id' => 'required|numeric|unique:users',
+        'center_money' => 'required'
       ]);
       User::create([
         'name' => $request->name,
-        'emp_id' => $request->emp_id
+        'emp_id' => $request->emp_id,
+        'center_money' => $request->center_money
       ]);
-      return redirect()->back('success', 'เพิ่มผู้ใช้แล้ว');
+      return back()->with('success', 'เพิ่มผู้ใช้แล้ว');
     }
     public function login()
     {
