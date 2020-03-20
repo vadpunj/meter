@@ -204,6 +204,39 @@ class InputController extends Controller
 
     }
 
+    public function view_source()
+    {
+      $data = Utility::get();
+      return view('source_view',['data' => $data]);
+    }
+    public function post_view_source(Request $request)
+    {
+      $this->validate($request,[
+         'center_money' => 'required',
+         'utility_type' => 'required',
+         'start_date' => 'required',
+         'end_date' => 'required'
+      ]);
+
+      $center_money = $request->center_money;
+      $utility_type = $request->utility_type;
+      $start_date = date('Y-m-d',strtotime($request->start_date));
+      $end_date = date('Y-m-d',strtotime($request->end_date));
+
+
+      $list = DB::table('waters')
+            ->join('originals', 'originals.meter_id', '=', 'waters.meter_id')
+            ->select('waters.meter_id', 'originals.node1','originals.node2', DB::raw('SUM(price) as price'))
+            ->where('waters.costcenter',$center_money)
+            ->where('originals.utility_type',$utility_type)
+            ->whereBetween('waters.date', [$start_date, $end_date])
+            ->groupBy('waters.meter_id','originals.node1','originals.node2')
+            ->get()->toArray();
+            // dd($list);
+      $data = Utility::get();
+      return view('source_view',['data' => $data ,'list' => $list ,'request' => $request->all()]);
+    }
+
     public function add_source()
     {
       $data = Utility::get();
@@ -214,7 +247,7 @@ class InputController extends Controller
     {
       $meter_id = $request->meter_id;
       $arr_uti = explode(",",$request->utility);
-      
+
       $utility = $arr_uti[1];
       $utility_type = $arr_uti[0];
       $business_id = $request->business_id;

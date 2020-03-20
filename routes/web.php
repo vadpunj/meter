@@ -25,12 +25,15 @@ Route::get('/logout', "UserController@logout")->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
   Route::get('/dashboard', 'InputController@home_page')->name('dashboard');
+
   Route::group(['prefix' => 'source'], function(){
     Route::get('/import_excel', 'ImportExcelController@index_original')->name('import');
     Route::post('/import_excel/import', 'ImportExcelController@import_original');
     Route::get('/add', 'InputController@add_source')->name('add_source');
     Route::post('/add', 'InputController@post_source')->name('post_source');
     Route::post('/utility', 'InputController@post_utility')->name('post_utility');
+    Route::get('/view', 'InputController@view_source')->name('view_source');
+    Route::post('/view', 'InputController@post_view_source')->name('post_view_source');
   });
   Route::group(['prefix' => 'home'], function(){
     Route::get('/add', 'InputController@get_home')->name('homeadd');

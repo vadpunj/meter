@@ -2,6 +2,7 @@
 // Helpers files
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Utility;
 
 class Func{
   public static function get_date($value)
@@ -32,6 +33,16 @@ class Func{
       return $row->name;
     }
 
+  }
+
+  public static function get_utility($type)
+  {
+    $name = Utility::where('utility_type',$type)->first();
+    if(!$name){
+      return '';
+    }else{
+      return $name->utility;
+    }
   }
 }
 

@@ -19,6 +19,10 @@
             <a class="nav-link {{ (request()->is('source/add')) ? 'active' : '' }}" href="{{ route('add_source') }}">
               <i class="nav-icon icon-pencil"></i> เพิ่มข้อมูล</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link {{ (request()->is('source/view')) ? 'active' : '' }}" href="{{ route('view_source') }}">
+              <i class="nav-icon icon-eye"></i> ดูข้อมูลรายได้</a>
+          </li>
         </ul>
       </li>
       {{--<li class="nav-item">
