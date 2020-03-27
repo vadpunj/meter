@@ -224,7 +224,7 @@ class InputController extends Controller
       $end_date = date('Y-m-d',strtotime($request->end_date));
 
 
-      $list = DB::table('waters')
+      $list = DB::table('electrics')
             ->join('originals', 'originals.meter_id', '=', 'waters.meter_id')
             ->select('waters.meter_id', 'originals.node1','originals.node2', DB::raw('SUM(price) as price'))
             ->where('waters.costcenter',$center_money)

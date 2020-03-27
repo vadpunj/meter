@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/import_excel/import', 'ImportExcelController@import_water');
 
     Route::get('/export_excel', 'ExportExcelController@index_water')->name('wexport');
+    Route::post('/excel/export', 'ExportExcelController@excel_water');
     Route::post('/export_excel/export', 'ExportExcelController@export_water');
   });
 

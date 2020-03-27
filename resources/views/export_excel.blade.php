@@ -42,7 +42,7 @@
        <h3 align="center">Export File {{ucfirst($type)}}</h3>
         <div class="form-group">
           <button class="btn btn-primary mb-1" type="button" data-toggle="modal" data-target="#myModal">Export</button>
-          {{--<a class="btn btn-primary" href="{{url($type.'/export_excel/export')}}">Export</a>--}}
+          {{--<a class="btn btn-primary" href="{{url($type.'/excel/export')}}">Export</a>--}}
         </div>
 
        <div class="panel panel-default">
@@ -93,23 +93,43 @@
            <span aria-hidden="true">×</span>
          </button>
         </div>
-        <form action="{{ url($type.'/export_excel/export') }}" method="post">
+        <form action="{{ url($type.'/excel/export') }}" method="post">
           {{ csrf_field() }}
           <div class="modal-body">
             <div class="row">
               <div class="form-group col-sm-6">
-                <label for="city">วันที่</label>
-                <input class="form-control @error('start_date') is-invalid @enderror" type="date" name="start_date">
-                @error('start_date')
+                <label>วันที่</label>
+                <input class="form-control @error('start_date') is-invalid @enderror" type="text" name="date">
+                @error('date')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
               </div>
               <div class="form-group col-sm-6">
-                <label for="city">ถึง</label>
-                <input class="form-control @error('start_date') is-invalid @enderror" type="date" name="end_date">
-                @error('start_date')
+                <label>เลขที่บิล</label>
+                <input class="form-control @error('start_date') is-invalid @enderror" type="text" name="bill_id">
+                @error('bill_id')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                <label>Header Text</label>
+                <input class="form-control @error('header') is-invalid @enderror" type="text" name="header">
+                @error('date')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+              </div>
+              <div class="form-group col-sm-6">
+                <label>Text</label>
+                <input class="form-control @error('text') is-invalid @enderror" type="text" name="text">
+                @error('text')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -139,4 +159,11 @@
       select:true,
     });
   </script>
+  <script>
+   var msg = '{{Session::get('alert')}}';
+   var exist = '{{Session::has('alert')}}';
+   if(exist){
+     alert(msg);
+   }
+ </script>
   @endsection

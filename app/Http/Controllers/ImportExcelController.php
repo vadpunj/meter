@@ -212,10 +212,10 @@ class ImportExcelController extends Controller
             $insert->meter_id = $insert_data[$j++]['meter_id'];
             $insert->utility = $insert_data[$j++]['utility'];
             $insert->utility_type = $insert_data[$j++]['utility_type'];
-            $insert->business_id = round($insert_data[$j++]['business_id'],2);
+            $insert->business_id = $insert_data[$j++]['business_id'];
             $insert->node1 = $insert_data[$j++]['node1'];
             $insert->node2 = $insert_data[$j++]['node2'];
-            $insert->costcenter = round($insert_data[$j++]['costcenter'],2);
+            $insert->costcenter = $insert_data[$j++]['costcenter'];
             $insert->gl = $insert_data[$j++]['gl'];
             $insert->business_process = $insert_data[$j++]['business_process'];
             $insert->product = $insert_data[$j++]['product'];
