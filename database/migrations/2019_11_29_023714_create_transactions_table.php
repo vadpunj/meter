@@ -21,6 +21,7 @@ class CreateTransactionsTable extends Migration
             $table->date('end_date');
             $table->string('user_id',10);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

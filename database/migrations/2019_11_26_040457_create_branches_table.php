@@ -19,6 +19,7 @@ class CreateBranchesTable extends Migration
           $table->char('branch_name');
           $table->string('user_id',10);
           $table->timestamps();
+          $table->softDeletes();
         });
     }
 

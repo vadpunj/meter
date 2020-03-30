@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Imports\FileImport;
-use App\Exports\FileExport;
 use Illuminate\Support\Facades\Auth;
 use App\Transaction;
 use App\Branch;
-use App\Delete;
 use App\Log_user;
 use App\Original;
 use App\Utility;
@@ -19,7 +16,7 @@ use Func;
 
 class InputController extends Controller
 {
-    public function home_page($value='')
+    public function home_page()
     {
       return view('dashboard');
     }
@@ -163,10 +160,10 @@ class InputController extends Controller
       $people = Branch::find($id);
       $people->delete();
 
-      $user = new Delete;
-      $user->user_id = Auth::user()->emp_id;
-      $user->detail = 'id:'.$branch_id." name:".$branch_name;
-      $user->save();
+      // $user = new Delete;
+      // $user->user_id = Auth::user()->emp_id;
+      // $user->detail = 'id:'.$branch_id." name:".$branch_name;
+      // $user->save();
 
       $branch_list = Branch::all()->toArray();
       return view('branch',['list' => $branch_list]);
@@ -180,10 +177,10 @@ class InputController extends Controller
       $people = Transaction::find($id);
       $people->delete();
 
-      $user = new Delete;
-      $user->user_id = Auth::user()->emp_id;
-      $user->detail = 'id'.$id.' branch_id:'.$id." source:".$source;
-      $user->save();
+      // $user = new Delete;
+      // $user->user_id = Auth::user()->emp_id;
+      // $user->detail = 'id'.$id.' branch_id:'.$id." source:".$source;
+      // $user->save();
 
       $list = DB::table('transactions')
             ->join('branches', 'branches.branch_id', '=', 'transactions.branch_id')
