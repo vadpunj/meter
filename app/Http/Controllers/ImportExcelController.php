@@ -18,18 +18,19 @@ class ImportExcelController extends Controller
 {
     public function index_electric()
     {
-      $today = date('Y-m-t');
-      $before = date('Y-m-01', strtotime("-1 month"));
+      $end_day = date('Y-m-t');
+      $first_day = date('Y-m-d', strtotime("first day of last month"));
 
       $data = Electric::groupBy(DB::raw('MONTH(date),YEAR(date),business_process,product,functional_area,segment'))
         ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price,business_process,product,functional_area,segment')
-        ->whereBetween('date', [$before, $today])
+        ->whereBetween('date', [$first_day, $end_day])
         ->get()
         ->toArray();
+        // dd($data);
 
       $data2 = Electric::groupBy(DB::raw('MONTH(date),YEAR(date)'))
         ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price')
-        ->whereBetween('date', [$before, $today])
+        ->whereBetween('date', [$first_day, $end_day])
         ->get()
         ->toArray();
       // return view('import_excel', ['type' => 'electric','data' => $data]);
@@ -93,18 +94,18 @@ class ImportExcelController extends Controller
 
     public function index_water()
     {
-      $today = date('Y-m-t');
-      $before = date('Y-m-01', strtotime("-1 month"));
+      $end_day = date('Y-m-t');
+      $first_day = date('Y-m-d', strtotime("first day of last month"));
 
       $data = Water::groupBy(DB::raw('MONTH(date),YEAR(date),business_process,product,functional_area,segment'))
         ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price,business_process,product,functional_area,segment')
-        ->whereBetween('date', [$before, $today])
+        ->whereBetween('date', [$end_day, $first_day])
         ->get()
         ->toArray();
 
       $data2 = Water::groupBy(DB::raw('MONTH(date),YEAR(date)'))
         ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price')
-        ->whereBetween('date', [$before, $today])
+        ->whereBetween('date', [$end_day, $first_day])
         ->get()
         ->toArray();
 

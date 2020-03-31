@@ -94,7 +94,7 @@
          </button>
         </div>
         <form action="{{ url($type.'/excel/export') }}" method="post">
-          {{ csrf_field() }}
+          @csrf
           <div class="modal-body">
             <div class="row">
               <div class="form-group col-sm-6">

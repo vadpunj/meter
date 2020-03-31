@@ -58,6 +58,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/import_excel/import', 'ImportExcelController@import_electric');
 
     Route::get('/export_excel', 'ExportExcelController@index_electric')->name('eexport');
+    Route::post('/excel/export', 'ExportExcelController@excel_electric');
     Route::post('/export_excel/export', 'ExportExcelController@export_electric');
   });
   Route::group(['prefix' => 'water'], function(){
