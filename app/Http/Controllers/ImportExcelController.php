@@ -8,6 +8,7 @@ use Excel;
 // use Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use App\Log_user;
 use App\Electric;
 use App\Original;
@@ -49,12 +50,12 @@ class ImportExcelController extends Controller
       $path = $request->file('select_file')->getRealPath();
       $name = $request->file('select_file')->getClientOriginalName();
       $pathreal = Storage::disk('log')->getAdapter()->getPathPrefix();
+      Storage::disk('log')->put($name, File::get($request->file('select_file')));
       $data = Excel::load($path)->get();
      // dd($data);
 
       $insert_log = new Log_user;
       $insert_log->user_id = Auth::user()->emp_id;
-     // $insert_log->user_name = 'phats';
       $insert_log->path = $pathreal.$name;
       $insert_log->type_log = 'electric';
       $insert_log->save();
@@ -124,6 +125,7 @@ class ImportExcelController extends Controller
      $path = $request->file('select_file')->getRealPath();
      $name = $request->file('select_file')->getClientOriginalName();
      $pathreal = Storage::disk('log')->getAdapter()->getPathPrefix();
+     Storage::disk('log')->put($name, File::get($request->file('select_file')));
      $data = Excel::load($path)->get();
      // เก็บข้อมูลว่าใครเป็นคน insert file เข้าระบบ
      $insert_log = new Log_user;
@@ -187,13 +189,16 @@ class ImportExcelController extends Controller
       $path = $request->file('select_file')->getRealPath();
       $name = $request->file('select_file')->getClientOriginalName();
       $pathreal = Storage::disk('log')->getAdapter()->getPathPrefix();
+      Storage::disk('log')->put($name, File::get($request->file('select_file')));
       $data = Excel::load($path)->get();
+
      // เก็บข้อมูลว่าใครเป็นคน insert file เข้าระบบ
       $insert_log = new Log_user;
       $insert_log->user_id = Auth::user()->emp_id;
       $insert_log->path = $pathreal.$name;
       $insert_log->type_log = 'original';
       $insert_log->save();
+
       $key_name = ['meter_id','utility','utility_type','business_id','node1','node2','costcenter','gl','business_process','product','functional_area','segment','key1'];
 
       if($data->count() > 0){
