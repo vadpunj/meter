@@ -16,7 +16,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('branch_id');
-            $table->char('source');
+            $table->string('source');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('user_id',10);

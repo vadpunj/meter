@@ -154,7 +154,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-2 col-form-label">Costcenter</label>
+                  <label class="col-md-2 col-form-label">ศูนยต้นทุน</label>
                   <div class="form-group col-sm-4">
                     <input class="form-control @error('costcenter') is-invalid @enderror" type="text" name="costcenter">
                     @error('costcenter')

@@ -16,7 +16,7 @@ class CreateDeletesTable extends Migration
         Schema::create('delete_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('user_id',10);
-            $table->char('detail');
+            $table->string('detail');
             $table->timestamps();
         });
     }
