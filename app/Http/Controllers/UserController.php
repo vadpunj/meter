@@ -69,7 +69,7 @@ class UserController extends Controller
           return redirect()->back()->with('message', 'กรุณาloginใหม่อีกครั้ง'); //user timeout
         }
         $response = json_decode($make_call, true);
-
+        
         if($response['Result'] == 'Pass'){
           \Auth::login($user);
           return redirect()->route('dashboard'); // รหัส login ผ่าน

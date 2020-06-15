@@ -92,7 +92,7 @@
                 {!! session('notification') !!}
               </div>
             @endif
-          <i class="fa fa-align-justify"></i> กรอกศูนย์ต้นทุน</div>
+          <i class="fa fa-align-justify"></i> กรอกข้อมูลมิเตอร์</div>
             <form class="form-horizontal" action="{{ route('post_source') }}" method="post">
               @csrf
               <div class="card-body">

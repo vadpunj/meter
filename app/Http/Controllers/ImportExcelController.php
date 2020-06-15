@@ -100,13 +100,13 @@ class ImportExcelController extends Controller
 
       $data = Water::groupBy(DB::raw('MONTH(date),YEAR(date),business_process,product,functional_area,segment'))
         ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price,business_process,product,functional_area,segment')
-        ->whereBetween('date', [$end_day, $first_day])
+        ->whereBetween('date', [$first_day,$end_day])
         ->get()
         ->toArray();
-
+// dd($data);
       $data2 = Water::groupBy(DB::raw('MONTH(date),YEAR(date)'))
         ->selectRaw('MONTH(date) as month,YEAR(date) as year,sum(price) as price')
-        ->whereBetween('date', [$end_day, $first_day])
+        ->whereBetween('date', [ $first_day,$end_day])
         ->get()
         ->toArray();
 
