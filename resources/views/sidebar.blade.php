@@ -11,10 +11,12 @@
         <a class="nav-link nav-dropdown-toggle" href="#">
           <i class="nav-icon icon-pencil"></i> ศูนย์มิเตอร์</a>
         <ul class="nav-dropdown-items">
+          @if(Auth::user()->type ==1)
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('source/import_excel/*')) ? 'active' : '' }}" href="{{ route('import') }}">
               <i class="nav-icon icon-plus"></i> อ่านไฟล์</a>
           </li>
+          @endif
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('source/add')) ? 'active' : '' }}" href="{{ route('add_source') }}">
               <i class="nav-icon icon-pencil"></i> เพิ่มข้อมูล</a>
