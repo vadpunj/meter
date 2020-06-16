@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -24,7 +25,8 @@ class UserController extends Controller
       User::create([
         'name' => $request->name,
         'emp_id' => $request->emp_id,
-        'center_money' => $request->center_money
+        'center_money' => $request->center_money,
+        'user_id' => Auth::user()->emp_id
       ]);
       return back()->with('success', 'เพิ่มผู้ใช้แล้ว');
     }
@@ -69,7 +71,7 @@ class UserController extends Controller
           return redirect()->back()->with('message', 'กรุณาloginใหม่อีกครั้ง'); //user timeout
         }
         $response = json_decode($make_call, true);
-        
+
         if($response['Result'] == 'Pass'){
           \Auth::login($user);
           return redirect()->route('dashboard'); // รหัส login ผ่าน

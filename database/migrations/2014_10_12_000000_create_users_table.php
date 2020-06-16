@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
           $table->string('emp_id')->unique();
           $table->boolean('type')->default(0);
           $table->string('center_money');
+          $table->string('user_id',10)->nullable();
           $table->timestamps();
         });
     }
