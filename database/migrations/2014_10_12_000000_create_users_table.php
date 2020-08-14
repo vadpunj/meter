@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
           $table->string('center_money');
           $table->string('user_id',10)->nullable();
           $table->timestamps();
+          $table->softDeletes();
         });
     }
 

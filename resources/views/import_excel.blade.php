@@ -53,13 +53,6 @@
    <div class="card-body">
    <form method="post" enctype="multipart/form-data" action="{{ url($type.'/import_excel/import') }}">
     {{ csrf_field() }}
-    {{--<div class="form-group row">
-      <label class="col-md-2 col-form-label" for="date-input">Time Key</label>
-      <div class="col-md-4">
-        <input class="form-control" name="time_key" type="text" required>
-
-      </div>
-    </div>--}}
     <div class="form-group row">
       <label class="col-md-2 col-form-label" for="date-input">Select File</label>
       <div class="col-md-4">
@@ -146,6 +139,7 @@
      @endif
    </table>
  </div>
+</div>
 </main>
 @endsection
 

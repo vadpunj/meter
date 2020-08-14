@@ -52,7 +52,7 @@
               <div class="form-group row">
                 <label class="col-md-2 col-form-label" for="text-input">ศูนย์ต้นทุน</label>
                   <div class="col-md-4">
-                    <input class="form-control"  type="text" name="center_money">
+                    <input class="form-control"  type="text" name="center_money" >
 
                   </div>
               </div>
@@ -145,7 +145,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="3"><b>Sum</b></td>
+              <td align="right" colspan="3"><b>Sum</b></td>
               <td align="right"><b>{{ number_format(round($sum_prices,2),2) }}</b></td>
             </tr>
           </tfoot>

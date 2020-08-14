@@ -49,8 +49,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/edit', 'InputController@edit_branch')->name('editbranch');
     Route::post('/del', 'InputController@delete_branch')->name('delbranch');
   });
-
-  Route::get('/list', 'InputController@list_data')->name('list');
+  Route::get('/list', 'UserController@get_user')->name('list');
+  Route::post('/list/delete', 'UserController@delete_user')->name('delete_user');
+  Route::post('/list/edit', 'UserController@edit_user')->name('edit_user');
+  // Route::get('/list', 'InputController@list_data')->name('list');
   Route::post('/find/branch', 'InputController@ajax_data');
 
   Route::group(['prefix' => 'electric'], function(){

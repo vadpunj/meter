@@ -48,14 +48,14 @@
      </ul>
     </div>
    @endif
-
+<div class="card-body">
+  <div class="card-body">
    @if($message = Session::get('success'))
    <div class="alert alert-success alert-block">
     <button type="button" class="close" data-dismiss="alert">×</button>
            <strong>{{ $message }}</strong>
    </div>
    @endif
-   <div class="card-body">
    <form method="post" enctype="multipart/form-data" action="{{ url('source/import_excel/import') }}">
     {{ csrf_field() }}
     <div class="form-group row">
@@ -107,6 +107,8 @@
      </table>
 
    </div>
+  </div>
+ </div>
 </main>
 @endsection
 

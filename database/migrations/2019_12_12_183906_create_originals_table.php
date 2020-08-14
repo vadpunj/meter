@@ -29,6 +29,7 @@ class CreateOriginalsTable extends Migration
             $table->string('segment')->nullable();
             $table->string('key1');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

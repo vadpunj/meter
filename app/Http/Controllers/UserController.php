@@ -127,4 +127,33 @@ class UserController extends Controller
         \Auth::logout();
         return redirect()->route('login');
     }
+
+    public function get_user()
+    {
+      $user = User::get();
+
+      return view('list_user',['user' => $user]);
+    }
+    public function delete_user(Request $request)
+    {
+       $delete = User::find($request->id);
+       $delete->delete();
+
+       if($delete){
+         return back()->with('success', 'ลบข้อมูลแล้ว');
+       }
+
+    }
+    public function edit_user(Request $request)
+    {
+      $edit = User::find($request->id);
+      $edit->name = $request->name;
+      $edit->center_money = $request->center_money;
+      $edit->type = $request->type;
+      $edit->update();
+
+      if($edit){
+        return back()->with('success', 'แก้ไขข้อมูลแล้ว');
+      }
+    }
 }

@@ -41,6 +41,7 @@ class ImportExcelController extends Controller
 
     public function import_electric(Request $request)
     {
+      config(['excel.import.heading' => 'original' ]);
       set_time_limit(0);
       $this->validate($request, [
         'select_file'  => 'required|mimes:xlsx'
@@ -60,36 +61,52 @@ class ImportExcelController extends Controller
       $insert_log->type_log = 'electric';
       $insert_log->save();
 
-      $key_name = ['bill_id','meter_id','date','price','costcenter','gl','business_process','product','functional_area','segment'];
+      // $key_name = ['bill_id','meter_id','date','price','costcenter','gl','business_process','product','functional_area','segment'];
 
-      if($data->count() > 0){
-        $num = 0;
-        foreach($data->toArray() as $key => $value){
-          $i = 0;
-          foreach($value as $row){
-            $insert_data[$num][$key_name[$i]] = $row;
-            $num++;
-            $i++;
-          }
-        }
-// dd($insert_data);
-        if(!empty($insert_data)){
-          for($j = 0; $j < count($insert_data); $j++ ){
-            $insert = new Electric;
-            $insert->bill_id = $insert_data[$j++]['bill_id'];
-            $insert->meter_id = $insert_data[$j++]['meter_id'];
-            $insert->date = $insert_data[$j++]['date'];
-            $insert->price = round($insert_data[$j++]['price'],2);
-            $insert->costcenter = $insert_data[$j++]['costcenter'];
-            $insert->gl = $insert_data[$j++]['gl'];
-            $insert->business_process = $insert_data[$j++]['business_process'];
-            $insert->product = $insert_data[$j++]['product'];
-            $insert->functional_area = $insert_data[$j++]['functional_area'];
-            $insert->segment = $insert_data[$j]['segment'];
-            $insert->save();
-          }
-        }
+      foreach($data->toArray() as $value){
+        // dd($value);
+         $insert = new Electric;
+         $insert->bill_id = $value["bill_id"];
+         $insert->meter_id = $value["meter_id"];
+         $insert->date = $value["date"];
+         $insert->price = round($value["money"],2);
+         $insert->costcenter = $value["costcenter"];
+         $insert->gl = $value["gl"];
+         $insert->business_process = $value["business_process"];
+         $insert->product = $value["product"];
+         $insert->functional_area = $value["functional_area"];
+         $insert->segment = $value["segment"];
+         $insert->save();
       }
+
+//       if($data->count() > 0){
+//         $num = 0;
+//         foreach($data->toArray() as $key => $value){
+//           $i = 0;
+//           foreach($value as $row){
+//             $insert_data[$num][$key_name[$i]] = $row;
+//             $num++;
+//             $i++;
+//           }
+//         }
+// // dd($insert_data);
+//         if(!empty($insert_data)){
+//           for($j = 0; $j < count($insert_data); $j++ ){
+//             $insert = new Electric;
+//             $insert->bill_id = $insert_data[$j++]['bill_id'];
+//             $insert->meter_id = $insert_data[$j++]['meter_id'];
+//             $insert->date = $insert_data[$j++]['date'];
+//             $insert->price = round($insert_data[$j++]['price'],2);
+//             $insert->costcenter = $insert_data[$j++]['costcenter'];
+//             $insert->gl = $insert_data[$j++]['gl'];
+//             $insert->business_process = $insert_data[$j++]['business_process'];
+//             $insert->product = $insert_data[$j++]['product'];
+//             $insert->functional_area = $insert_data[$j++]['functional_area'];
+//             $insert->segment = $insert_data[$j]['segment'];
+//             $insert->save();
+//           }
+//         }
+//       }
      return back()->with('success', 'Excel Data Imported successfully.');
     }
 
@@ -115,11 +132,12 @@ class ImportExcelController extends Controller
 
     public function import_water(Request $request)
     {
+      config(['excel.import.heading' => 'original' ]);
       set_time_limit(0);
-     $this->validate($request, [
-      'select_file'  => 'required|mimes:xlsx'
-     ]);
-
+      $this->validate($request, [
+        'select_file'  => 'required|mimes:xlsx'
+      ]);
+// dd('34242');
      // $delete_data = Water::where('TIME_KEY',$request->time_key)->delete();
 
      $path = $request->file('select_file')->getRealPath();
@@ -133,42 +151,57 @@ class ImportExcelController extends Controller
      $insert_log->path = $pathreal.$name;
      $insert_log->type_log = 'water';
      $insert_log->save();
-     $key_name = ['bill_id','meter_id','date','price','costcenter','gl','business_process','product','functional_area','segment'];
+     // $key_name = ['bill_id','meter_id','date','price','costcenter','gl','business_process','product','functional_area','segment'];
 
-     if($data->count() > 0)
-     {
-       $num = 0;
-      foreach($data->toArray() as $key => $value)
-      {
-        $i = 0;
-       foreach($value as $row)
-       {
-        $insert_data[$num][$key_name[$i]] = $row;
-        $num++;
-        $i++;
-       }
-      }
-      if(!empty($insert_data))
-      {
-        for($j = 0; $j < count($insert_data); $j++ ){
-          $insert = new Water;
-          $insert->bill_id = $insert_data[$j++]['bill_id'];
-          $insert->meter_id = $insert_data[$j++]['meter_id'];
-          $insert->date = $insert_data[$j++]['date'];
-          $insert->price = round($insert_data[$j++]['price'],2);
-          $insert->costcenter = $insert_data[$j++]['costcenter'];
-          $insert->gl = $insert_data[$j++]['gl'];
-          $insert->business_process = $insert_data[$j++]['business_process'];
-          $insert->product = $insert_data[$j++]['product'];
-          $insert->functional_area = $insert_data[$j++]['functional_area'];
-          $insert->segment = $insert_data[$j]['segment'];
-          $insert->save();
-        }
-
-
-      }
+     foreach($data->toArray() as $value){
+       // dd($value);
+        $insert = new Water;
+        $insert->bill_id = $value["bill_id"];
+        $insert->meter_id = $value["meter_id"];
+        $insert->date = $value["date"];
+        $insert->price = round($value["money"],2);
+        $insert->costcenter = $value["costcenter"];
+        $insert->gl = $value["gl"];
+        $insert->business_process = $value["business_process"];
+        $insert->product = $value["product"];
+        $insert->functional_area = $value["functional_area"];
+        $insert->segment = $value["segment"];
+        $insert->save();
      }
-     return back()->with('success', 'Excel Data Imported successfully.');
+     // if($data->count() > 0){
+     //   $num = 0;
+     //  foreach($data->toArray() as $key => $value)
+     //  {
+     //    $i = 0;
+     //   foreach($value as $row)
+     //   {
+     //    $insert_data[$num][$key_name[$i]] = $row;
+     //    $num++;
+     //    $i++;
+     //   }
+     //  }
+     //  if(!empty($insert_data))
+     //  {
+     //    for($j = 0; $j < count($insert_data); $j++ ){
+     //      $insert = new Water;
+     //      $insert->bill_id = $insert_data[$j++]['bill_id'];
+     //      $insert->meter_id = $insert_data[$j++]['meter_id'];
+     //      $insert->date = $insert_data[$j++]['date'];
+     //      $insert->price = round($insert_data[$j++]['price'],2);
+     //      $insert->costcenter = $insert_data[$j++]['costcenter'];
+     //      $insert->gl = $insert_data[$j++]['gl'];
+     //      $insert->business_process = $insert_data[$j++]['business_process'];
+     //      $insert->product = $insert_data[$j++]['product'];
+     //      $insert->functional_area = $insert_data[$j++]['functional_area'];
+     //      $insert->segment = $insert_data[$j]['segment'];
+     //      $insert->save();
+     //    }
+     //
+     //  }
+     // }
+     if($insert){
+       return back()->with('success', 'Excel Data Imported successfully.');
+     }
     }
     public function index_original()
     {
@@ -179,6 +212,7 @@ class ImportExcelController extends Controller
 
     public function import_original(Request $request)
     {
+      config(['excel.import.heading' => 'original' ]);
       set_time_limit(0);
       $this->validate($request, [
         'select_file'  => 'required|mimes:xlsx'
@@ -199,39 +233,27 @@ class ImportExcelController extends Controller
       $insert_log->type_log = 'original';
       $insert_log->save();
 
-      $key_name = ['meter_id','utility','utility_type','business_id','node1','node2','costcenter','gl','business_process','product','functional_area','segment','key1'];
-
-      if($data->count() > 0){
-        $num = 0;
-        foreach($data->toArray() as $key => $value){
-          $i = 0;
-          foreach($value as $row){
-            $insert_data[$num][$key_name[$i]] = $row;
-            $num++;
-            $i++;
-          }
-        }
-      // dd($insert_data);
-        if(!empty($insert_data)){
-          for($j = 0; $j < count($insert_data); $j++ ){
-            $insert = new Original;
-            $insert->meter_id = $insert_data[$j++]['meter_id'];
-            $insert->utility = $insert_data[$j++]['utility'];
-            $insert->utility_type = $insert_data[$j++]['utility_type'];
-            $insert->business_id = $insert_data[$j++]['business_id'];
-            $insert->node1 = $insert_data[$j++]['node1'];
-            $insert->node2 = $insert_data[$j++]['node2'];
-            $insert->costcenter = $insert_data[$j++]['costcenter'];
-            $insert->gl = $insert_data[$j++]['gl'];
-            $insert->business_process = $insert_data[$j++]['business_process'];
-            $insert->product = $insert_data[$j++]['product'];
-            $insert->functional_area = $insert_data[$j++]['functional_area'];
-            $insert->segment = $insert_data[$j++]['segment'];
-            $insert->key1 = $insert_data[$j]['key1'];
-            $insert->save();
-          }
-        }
+// dd($data->toArray());
+      foreach($data->toArray() as $value){
+        // dd($value);
+        $insert = new Original;
+        $insert->meter_id = $value["merter_id"];
+        $insert->utility = $value["utility"];
+        $insert->utility_type = $value['utility_id'];
+        $insert->business_id = $value['business_id'];
+        $insert->node1 = $value['node1'];
+        $insert->node2 = $value['node2'];
+        $insert->costcenter = $value['costcenter'];
+        $insert->gl = $value['gl'];
+        $insert->business_process = $value['business_process'];
+        $insert->product = $value['product'];
+        $insert->functional_area = $value['functional_area'];
+        $insert->segment = $value['segment'];
+        $insert->key1 = $value['reference_key_1'];
+        $insert->save();
+        // dd($value["merter_id"]);
       }
+
     // insert utility ที่มีในไฟล์ excel ลงตารางutility อัตโนมัติ
     $all = DB::table('originals')
           ->whereNotIn('utility_type', DB::table('utilities')->pluck('utility_type'))

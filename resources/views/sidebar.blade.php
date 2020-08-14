@@ -14,16 +14,16 @@
           @if(Auth::user()->type ==1)
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('source/import_excel/*')) ? 'active' : '' }}" href="{{ route('import') }}">
-              <i class="nav-icon icon-plus"></i> อ่านไฟล์</a>
+              <i class="nav-icon icon-doc"></i> อ่านไฟล์</a>
           </li>
           @endif
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('source/add')) ? 'active' : '' }}" href="{{ route('add_source') }}">
-              <i class="nav-icon icon-pencil"></i> เพิ่มข้อมูล</a>
+              <i class="nav-icon fa fa-plus"></i> เพิ่มข้อมูล</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('source/view')) ? 'active' : '' }}" href="{{ route('view_source') }}">
-              <i class="nav-icon icon-eye"></i> ดูข้อมูลรายได้</a>
+              <i class="nav-icon fa fa-eye"></i> ดูข้อมูลรายได้</a>
           </li>
         </ul>
       </li>
@@ -93,7 +93,11 @@
       @if(Auth::user()->type ==1)
       <li class="nav-item">
         <a class="nav-link" target="_blank" href="{{ route('register') }}" >
-          <i class="nav-icon icon-people"></i> Register</a>
+          <i class="nav-icon icon-user"></i> Register</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('list') }}" >
+          <i class="nav-icon icon-people"></i> List User</a>
       </li>
       @endif
     </ul>

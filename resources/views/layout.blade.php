@@ -6,7 +6,7 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('admin/img/Logononame.png') }}" sizes="16x16">
     @section('title')
     @show
-    <title>CoreUI Free Bootstrap Admin Template</title>
+    <title>ระบบสาธารณูปโภค Web Meter System</title>
     @yield('css')
   </head>
   <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">

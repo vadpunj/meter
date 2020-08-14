@@ -8,12 +8,13 @@ use Excel;
 use App\Log_user;
 use App\Electric;
 use Response;
+use App\Water;
 
 class ExportExcelController extends Controller
 {
     public function index_electric()
     {
-      $data = DB::table('electrics')->get();
+      $data = Electrics::orderBy('created_at','DESC')->limit(100)->get();
       return view('export_excel', ['data' => $data,'type' => 'electric']);
     }
 
@@ -128,7 +129,7 @@ class ExportExcelController extends Controller
 
     public function index_water()
     {
-      $data = DB::table('waters')->get();
+      $data = Water::orderBy('created_at','DESC')->limit(100)->get();
       return view('export_excel', ['data' => $data,'type' => 'water']);
     }
 

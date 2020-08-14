@@ -220,15 +220,32 @@ class InputController extends Controller
       $start_date = date('Y-m-d',strtotime($request->start_date));
       $end_date = date('Y-m-d',strtotime($request->end_date));
 
+      // check string
+      $str = Func::get_utility($utility_type);
+      $pattern = "/ไฟฟ้า/i";
+      // dd($str);
 
-      $list = DB::table('electrics')
-            ->join('originals', 'originals.meter_id', '=', 'waters.meter_id')
-            ->select('waters.meter_id', 'originals.node1','originals.node2', DB::raw('SUM(price) as price'))
-            ->where('waters.costcenter',$center_money)
-            ->where('originals.utility_type',$utility_type)
-            ->whereBetween('waters.date', [$start_date, $end_date])
-            ->groupBy('waters.meter_id','originals.node1','originals.node2')
-            ->get()->toArray();
+
+      if(preg_match($pattern, $str) == "0"){
+        $list = DB::table('waters')
+          ->join('originals', 'originals.meter_id', '=', 'waters.meter_id')
+          ->select('waters.meter_id', 'originals.node1','originals.node2', DB::raw('SUM(price) as price'))
+          ->where('waters.costcenter',$center_money)
+          ->where('originals.utility_type',$utility_type)
+          ->whereBetween('waters.date', [$start_date, $end_date])
+          ->groupBy('waters.meter_id','originals.node1','originals.node2')
+          ->get()->toArray();
+      }else{
+        $list = DB::table('electrics')
+          ->join('originals', 'originals.meter_id', '=', 'electrics.meter_id')
+          ->select('electrics.meter_id', 'originals.node1','originals.node2', DB::raw('SUM(price) as price'))
+          ->where('electrics.costcenter',$center_money)
+          ->where('originals.utility_type',$utility_type)
+          ->whereBetween('electrics.date', [$start_date, $end_date])
+          ->groupBy('electrics.meter_id','originals.node1','originals.node2')
+          ->get()->toArray();
+      }
+
             // dd($list);
       $data = Utility::get();
       return view('source_view',['data' => $data ,'list' => $list ,'request' => $request->all()]);

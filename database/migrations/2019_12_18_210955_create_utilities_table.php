@@ -18,6 +18,7 @@ class CreateUtilitiesTable extends Migration
             $table->string('utility');
             $table->integer('utility_type');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
