@@ -82,6 +82,7 @@ class ImportExcelController extends Controller
 
       }
 
+
       if($insert){
         return back()->with('success', 'Excel Data Imported successfully.');
 
@@ -149,37 +150,7 @@ class ImportExcelController extends Controller
        }
 
      }
-     // if($data->count() > 0){
-     //   $num = 0;
-     //  foreach($data->toArray() as $key => $value)
-     //  {
-     //    $i = 0;
-     //   foreach($value as $row)
-     //   {
-     //    $insert_data[$num][$key_name[$i]] = $row;
-     //    $num++;
-     //    $i++;
-     //   }
-     //  }
-     //  if(!empty($insert_data))
-     //  {
-     //    for($j = 0; $j < count($insert_data); $j++ ){
-     //      $insert = new Water;
-     //      $insert->bill_id = $insert_data[$j++]['bill_id'];
-     //      $insert->meter_id = $insert_data[$j++]['meter_id'];
-     //      $insert->date = $insert_data[$j++]['date'];
-     //      $insert->price = round($insert_data[$j++]['price'],2);
-     //      $insert->costcenter = $insert_data[$j++]['costcenter'];
-     //      $insert->gl = $insert_data[$j++]['gl'];
-     //      $insert->business_process = $insert_data[$j++]['business_process'];
-     //      $insert->product = $insert_data[$j++]['product'];
-     //      $insert->functional_area = $insert_data[$j++]['functional_area'];
-     //      $insert->segment = $insert_data[$j]['segment'];
-     //      $insert->save();
-     //    }
-     //
-     //  }
-     // }
+
      if($insert){
        return back()->with('success', 'Excel Data Imported successfully.');
      }
@@ -198,6 +169,7 @@ class ImportExcelController extends Controller
       $this->validate($request, [
         'select_file'  => 'required|mimes:xlsx'
       ]);
+      // dd($request->all());
 
      // $delete_data = Water::where('TIME_KEY',$request->time_key)->delete();
 
@@ -215,6 +187,10 @@ class ImportExcelController extends Controller
       $insert_log->save();
 
 // dd($data->toArray());
+      if($request->submit == "delete"){
+        // Original::delete();
+        DB::table('originals')->delete();
+      }
       foreach($data->toArray() as $value){
         // dd($value);
         if($value["Merter_id"]){

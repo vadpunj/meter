@@ -50,6 +50,16 @@
    @endif
 <div class="card-body">
   <div class="card-body">
+    @if(count($errors) > 0)
+     <div class="alert alert-danger">
+      Upload Validation Error<br><br>
+      <ul>
+       @foreach($errors->all() as $error)
+       <li>{{ $error }}</li>
+       @endforeach
+      </ul>
+     </div>
+    @endif
    @if($message = Session::get('success'))
    <div class="alert alert-success alert-block">
     <button type="button" class="close" data-dismiss="alert">×</button>
@@ -66,10 +76,35 @@
 </a></span>
       </div>
     </div>
+
     <div class="col-md-4">
-      <input type="submit" name="upload" class="btn btn-primary" value="Submit">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="{{'#Del1'}}">Submit
+      <!-- <input type="submit" name="upload" class="btn btn-primary" value="Submit"> -->
     </div><br>
+    <div class="modal fade" id="{{'Del1'}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+     <div class="modal-dialog modal-sm modal-primary" role="document">
+       <div class="modal-content">
+           @csrf
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">แก้ไขข้อมูลโครงสร้าง</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+          <div class="modal-body">
+            <p>ต้องการลบข้อมูลก่อนหรือไม่</p>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" name="submit" class="btn btn-danger" value="delete">Delete</button>
+            <button type="submit" name="sumbit" class="btn btn-primary" value="no">No</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
    </form>
+
    <div class="row">
      <table class="table table-responsive-sm table-bordered " id="myTable">
        <thead>
