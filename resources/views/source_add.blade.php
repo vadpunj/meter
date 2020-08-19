@@ -34,6 +34,12 @@
     <!-- end breadcrumb -->
     <div class="container-fluid">
       <div class="animated fadeIn">
+        @if($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+         <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+        </div>
+        @endif
         <div class="row">
           <div class="col-lg-12">
             <div class="card">

@@ -44,19 +44,21 @@
     </div>
    @endif
 
-   @if($message = Session::get('success'))
-   <div class="alert alert-success alert-block">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-           <strong>{{ $message }}</strong>
-   </div>
-   @endif
    <div class="card-body">
+     @if($message = Session::get('success'))
+     <div class="alert alert-success alert-block">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+             <strong>{{ $message }}</strong>
+     </div>
+     @endif
    <form method="post" enctype="multipart/form-data" action="{{ url($type.'/import_excel/import') }}">
     {{ csrf_field() }}
     <div class="form-group row">
       <label class="col-md-2 col-form-label" for="date-input">Select File</label>
       <div class="col-md-4">
-        <input id="file-input" type="file" name="select_file"><span class="text-muted">.xlsx</span>
+        <input id="file-input" type="file" name="select_file"><span class="text-muted">.xlsx<a href="{{ url('/download/Meter test.xlsx') }}" target="_blank">
+    ตัวอย่างไฟล์ที่อัพโหลด
+</a></span>
         @error('select_file')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>

@@ -65,49 +65,27 @@ class ImportExcelController extends Controller
 
       foreach($data->toArray() as $value){
         // dd($value);
-         $insert = new Electric;
-         $insert->bill_id = $value["bill_id"];
-         $insert->meter_id = $value["meter_id"];
-         $insert->date = $value["date"];
-         $insert->price = round($value["money"],2);
-         $insert->costcenter = $value["costcenter"];
-         $insert->gl = $value["gl"];
-         $insert->business_process = $value["business_process"];
-         $insert->product = $value["product"];
-         $insert->functional_area = $value["functional_area"];
-         $insert->segment = $value["segment"];
-         $insert->save();
+        if($value["bill_id"]){
+          $insert = new Electric;
+          $insert->bill_id = $value["bill_id"];
+          $insert->meter_id = $value["meter_id"];
+          $insert->date = $value["date"];
+          $insert->price = round($value["money"],2);
+          $insert->costcenter = $value["costcenter"];
+          $insert->gl = $value["gl"];
+          $insert->business_process = $value["business_process"];
+          $insert->product = $value["product"];
+          $insert->functional_area = $value["functional_area"];
+          $insert->segment = $value["segment"];
+          $insert->save();
+        }
+
       }
 
-//       if($data->count() > 0){
-//         $num = 0;
-//         foreach($data->toArray() as $key => $value){
-//           $i = 0;
-//           foreach($value as $row){
-//             $insert_data[$num][$key_name[$i]] = $row;
-//             $num++;
-//             $i++;
-//           }
-//         }
-// // dd($insert_data);
-//         if(!empty($insert_data)){
-//           for($j = 0; $j < count($insert_data); $j++ ){
-//             $insert = new Electric;
-//             $insert->bill_id = $insert_data[$j++]['bill_id'];
-//             $insert->meter_id = $insert_data[$j++]['meter_id'];
-//             $insert->date = $insert_data[$j++]['date'];
-//             $insert->price = round($insert_data[$j++]['price'],2);
-//             $insert->costcenter = $insert_data[$j++]['costcenter'];
-//             $insert->gl = $insert_data[$j++]['gl'];
-//             $insert->business_process = $insert_data[$j++]['business_process'];
-//             $insert->product = $insert_data[$j++]['product'];
-//             $insert->functional_area = $insert_data[$j++]['functional_area'];
-//             $insert->segment = $insert_data[$j]['segment'];
-//             $insert->save();
-//           }
-//         }
-//       }
-     return back()->with('success', 'Excel Data Imported successfully.');
+      if($insert){
+        return back()->with('success', 'Excel Data Imported successfully.');
+
+      }
     }
 
     public function index_water()
@@ -155,18 +133,21 @@ class ImportExcelController extends Controller
 
      foreach($data->toArray() as $value){
        // dd($value);
-        $insert = new Water;
-        $insert->bill_id = $value["bill_id"];
-        $insert->meter_id = $value["meter_id"];
-        $insert->date = $value["date"];
-        $insert->price = round($value["money"],2);
-        $insert->costcenter = $value["costcenter"];
-        $insert->gl = $value["gl"];
-        $insert->business_process = $value["business_process"];
-        $insert->product = $value["product"];
-        $insert->functional_area = $value["functional_area"];
-        $insert->segment = $value["segment"];
-        $insert->save();
+       if($value["bill_id"]){
+         $insert = new Water;
+         $insert->bill_id = $value["bill_id"];
+         $insert->meter_id = $value["meter_id"];
+         $insert->date = $value["date"];
+         $insert->price = round($value["money"],2);
+         $insert->costcenter = $value["costcenter"];
+         $insert->gl = $value["gl"];
+         $insert->business_process = $value["business_process"];
+         $insert->product = $value["product"];
+         $insert->functional_area = $value["functional_area"];
+         $insert->segment = $value["segment"];
+         $insert->save();
+       }
+
      }
      // if($data->count() > 0){
      //   $num = 0;
@@ -236,21 +217,24 @@ class ImportExcelController extends Controller
 // dd($data->toArray());
       foreach($data->toArray() as $value){
         // dd($value);
-        $insert = new Original;
-        $insert->meter_id = $value["merter_id"];
-        $insert->utility = $value["utility"];
-        $insert->utility_type = $value['utility_id'];
-        $insert->business_id = $value['business_id'];
-        $insert->node1 = $value['node1'];
-        $insert->node2 = $value['node2'];
-        $insert->costcenter = $value['costcenter'];
-        $insert->gl = $value['gl'];
-        $insert->business_process = $value['business_process'];
-        $insert->product = $value['product'];
-        $insert->functional_area = $value['functional_area'];
-        $insert->segment = $value['segment'];
-        $insert->key1 = $value['reference_key_1'];
-        $insert->save();
+        if($value["Merter_id"]){
+          $insert = new Original;
+          $insert->meter_id = $value["Merter_id"];
+          $insert->utility = $value["Utility"];
+          $insert->utility_type = $value['Utility_id'];
+          $insert->business_id = $value['Business_id'];
+          $insert->node1 = $value['Node1'];
+          $insert->node2 = $value['Node2'];
+          $insert->costcenter = $value['Costcenter'];
+          $insert->gl = $value['GL'];
+          $insert->business_process = $value['Business_Process'];
+          $insert->product = $value['Product'];
+          $insert->functional_area = $value['Functional_Area'];
+          $insert->segment = $value['Segment'];
+          $insert->key1 = $value['Reference_Key_1'];
+          $insert->save();
+        }
+
         // dd($value["merter_id"]);
       }
 
@@ -267,7 +251,9 @@ class ImportExcelController extends Controller
             $insert->save();
           }
 
-     return back()->with('success', 'Excel Data Imported successfully.');
+      if($insert){
+        return back()->with('success', 'Excel Data Imported successfully.');
+      }
     }
 
 

@@ -14,7 +14,7 @@ class ExportExcelController extends Controller
 {
     public function index_electric()
     {
-      $data = Electrics::orderBy('created_at','DESC')->limit(100)->get();
+      $data = Electric::orderBy('created_at','DESC')->limit(100)->get();
       return view('export_excel', ['data' => $data,'type' => 'electric']);
     }
 

@@ -25,7 +25,8 @@ Route::get('/logout', "UserController@logout")->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
   Route::get('/dashboard', 'InputController@home_page')->name('dashboard');
-
+  Route::get( '/download/{filename}', 'InputController@download');
+  
   Route::group(['prefix' => 'source'], function(){
     Route::get('/import_excel', 'ImportExcelController@index_original')->name('import');
     Route::post('/import_excel/import', 'ImportExcelController@import_original');
