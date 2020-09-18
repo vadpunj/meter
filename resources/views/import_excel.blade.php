@@ -141,6 +141,38 @@
      @endif
    </table>
  </div>
+  <table class="table table-responsive-sm table-bordered" style="overflow-x: auto">
+    <thead>
+      <tr>
+        <th>Bill ID</th>
+        <th>Meter ID</th>
+        <th>Date</th>
+        <th>ศูนย์ต้นทุน</th>
+        <th>Price</th>
+        <th>GL</th>
+        <th>Business Process</th>
+        <th>Product</th>
+        <th>Functional Area</th>
+        <th>Segment</th>
+      </tr>
+    </thead>
+    @foreach($notin as $key => $value)
+    <tbody>
+      <tr>
+        <td>{{ $value['bill_id'] }}</td>
+        <td>{{ $value['meter_id'] }}</td>
+        <td>{{ date( "d/m/Y", strtotime($value['date'])) }}</td>
+        <td>{{ $value['costcenter'] }}</td>
+        <td align="right">{{ number_format($value['price'],2) }}</td>
+        <td>{{ $value['gl'] }}</td>
+        <td>{{ $value['business_process'] }}</td>
+        <td>{{ $value['product'] }}</td>
+        <td align="center">{{ $value['functional_area'] }}</td>
+        <td>{{ $value['segment'] }}</td>
+      </tr>
+    </tbody>
+    @endforeach
+  </table>
 </div>
 </main>
 @endsection

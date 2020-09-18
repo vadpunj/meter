@@ -35,8 +35,13 @@ class ImportExcelController extends Controller
         ->get()
         ->toArray();
       // return view('import_excel', ['type' => 'electric','data' => $data]);
+      $notin =  Electric::whereNotIn('meter_id', function($query){
+          $query->select('meter_id')
+          ->from(with(new Original)->getTable());
+      })->get()->toArray();
+      // dd($notin);
 
-      return view('import_excel', ['type' => 'electric','data' => $data, 'data2' => $data2]);
+      return view('import_excel', ['type' => 'electric','data' => $data, 'data2' => $data2,'notin' => $notin]);
     }
 
     public function import_electric(Request $request)
@@ -106,7 +111,12 @@ class ImportExcelController extends Controller
         ->get()
         ->toArray();
 
-      return view('import_excel', ['type' => 'water','data' => $data ,'data2' => $data2]);
+      $notin =  Water::whereNotIn('meter_id', function($query){
+          $query->select('meter_id')
+          ->from(with(new Original)->getTable());
+      })->get()->toArray();
+
+      return view('import_excel', ['type' => 'water','data' => $data ,'data2' => $data2, 'notin' => $notin]);
     }
 
     public function import_water(Request $request)
