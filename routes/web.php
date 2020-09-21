@@ -26,7 +26,7 @@ Route::get('/logout', "UserController@logout")->name('logout');
 Route::group(['middleware' => ['auth']], function () {
   Route::get('/dashboard', 'InputController@home_page')->name('dashboard');
   Route::get( '/download/{filename}', 'InputController@download');
-  
+
   Route::group(['prefix' => 'source'], function(){
     Route::get('/import_excel', 'ImportExcelController@index_original')->name('import');
     Route::post('/import_excel/import', 'ImportExcelController@import_original');
@@ -72,5 +72,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/excel/export', 'ExportExcelController@excel_water');
     Route::post('/export_excel/export', 'ExportExcelController@export_water');
   });
-
+    Route::post('/save/edit', 'InputController@save_edit')->name('edit');
 });

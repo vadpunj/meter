@@ -58,7 +58,7 @@
       <div class="col-md-4">
         <input id="file-input" type="file" name="select_file"><span class="text-muted">.xlsx<a href="{{ url('/download/Meter test.xlsx') }}" target="_blank">
     ตัวอย่างไฟล์ที่อัพโหลด
-</a></span>
+        </a></span>
         @error('select_file')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
@@ -154,6 +154,7 @@
         <th>Product</th>
         <th>Functional Area</th>
         <th>Segment</th>
+        <th>แก้ไข</th>
       </tr>
     </thead>
     @foreach($notin as $key => $value)
@@ -169,12 +170,112 @@
         <td>{{ $value['product'] }}</td>
         <td align="center">{{ $value['functional_area'] }}</td>
         <td>{{ $value['segment'] }}</td>
+        <td>
+          <button class="btn btn-warning mb-1" type="button" data-toggle="modal" data-target="{{'#myEdit'.$value['id']}}">Edit</button>
+        </td>
       </tr>
     </tbody>
     @endforeach
   </table>
 </div>
 </main>
+@foreach($notin as $key => $value)
+  <div class="modal fade" id="{{'myEdit'.$value['id']}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-warning modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+         <h4 class="modal-title">แก้ไขข้อมูล</h4>
+         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">×</span>
+         </button>
+        </div>
+        <form action="{{ route('edit') }}" method="post">
+          {{ csrf_field() }}
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">Bill ID</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="bill_id" value="{{ $value['bill_id'] }}" readonly>
+                </div>
+              </div>
+              <label class="col-md-2 col-form-label">Meter ID</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="meter_id" value="{{ $value['meter_id'] }}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">Date</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="date" value="{{ $value['date'] }}" readonly>
+                </div>
+              </div>
+              <label class="col-md-2 col-form-label">Price</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="price" value="{{ $value['price'] }}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">ศูนย์ต้นทุน</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="costcenter" value="{{ $value['costcenter'] }}" readonly>
+                </div>
+              </div>
+              <label class="col-md-2 col-form-label">GL</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="gl" value="{{ $value['gl'] }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">Business Process</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="business_process" value="{{ $value['business_process'] }}" readonly>
+                </div>
+              </div>
+              <label class="col-md-2 col-form-label">Product</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="product" value="{{ $value['product'] }}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-md-2 col-form-label">Functional Area</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="functional_area" value="{{ $value['functional_area'] }}" readonly>
+                </div>
+              </div>
+              <label class="col-md-2 col-form-label">Segment</label>
+              <div class="form-group col-sm-4">
+                <div class="input-group">
+                  <input class="form-control" type="text" name="segment" value="{{ $value['segment'] }}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="id" value="{{ $value['id'] }}">
+            <input type="hidden" name="type" value="{{ $type }}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+     <!-- /.modal-content-->
+    </div>
+   <!-- /.modal-dialog-->
+  </div>
+@endforeach
+
 @endsection
 
 @section('js')

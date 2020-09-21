@@ -10,6 +10,8 @@ use App\Branch;
 use App\Log_user;
 use App\Original;
 use App\Utility;
+use App\Water;
+use App\Electric;
 use DB;
 use Excel;
 use Func;
@@ -350,5 +352,23 @@ class InputController extends Controller
            // Error
            exit( 'Requested file does not exist on our server!' );
        }
+   }
+   public function save_edit(Request $request)
+   {
+     // dd($request->all());
+     if($request->type == 'water'){
+       $update = Water::find($request->id);
+       $update->meter_id = $request->meter_id;
+       $update->price = $request->price;
+       $update->update();
+     }else{
+       $update = Electric::find($request->id);
+       $update->meter_id = $request->meter_id;
+       $update->price = $request->price;
+       $update->update();
+     }
+     if($update){
+       return back()->with('success', 'บันทึกข้อมูลแล้ว');
+     }
    }
 }

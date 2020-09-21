@@ -115,7 +115,7 @@ class ImportExcelController extends Controller
           $query->select('meter_id')
           ->from(with(new Original)->getTable());
       })->get()->toArray();
-
+// dd($notin);
       return view('import_excel', ['type' => 'water','data' => $data ,'data2' => $data2, 'notin' => $notin]);
     }
 
