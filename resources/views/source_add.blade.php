@@ -189,7 +189,7 @@
                       </span>
                     @enderror
                   </div>
-                  <label class="col-md-2 col-form-label">Product</label>
+                  <label class="col-md-2 col-form-label">ผลิตภัณฑ์</label>
                   <div class="form-group col-sm-4">
                     <input class="form-control @error('product') is-invalid @enderror" type="text" name="product">
                     @error('product')
@@ -200,7 +200,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-md-2 col-form-label">Function Area</label>
+                  <label class="col-md-2 col-form-label">Functional Area</label>
                   <div class="form-group col-sm-4">
                     <input class="form-control @error('functional_area') is-invalid @enderror" type="text" name="functional_area">
                     @error('functional_area')

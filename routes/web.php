@@ -35,6 +35,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/utility', 'InputController@post_utility')->name('post_utility');
     Route::get('/view', 'InputController@view_source')->name('view_source');
     Route::post('/view', 'InputController@post_view_source')->name('post_view_source');
+    Route::get('/find', 'InputController@find_source')->name('find_source');
+    Route::post('/find', 'InputController@post_find_source')->name('post_find_source');
   });
   Route::group(['prefix' => 'home'], function(){
     Route::get('/add', 'InputController@get_home')->name('homeadd');
@@ -50,9 +52,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/edit', 'InputController@edit_branch')->name('editbranch');
     Route::post('/del', 'InputController@delete_branch')->name('delbranch');
   });
-  Route::get('/list', 'UserController@get_user')->name('list');
-  Route::post('/list/delete', 'UserController@delete_user')->name('delete_user');
-  Route::post('/list/edit', 'UserController@edit_user')->name('edit_user');
+  Route::get('/list', 'UserController@get_user')->middleware('admin')->name('list');
+  Route::post('/list/delete', 'UserController@delete_user')->middleware('admin')->name('delete_user');
+  Route::post('/list/edit', 'UserController@edit_user')->middleware('admin')->name('edit_user');
   // Route::get('/list', 'InputController@list_data')->name('list');
   Route::post('/find/branch', 'InputController@ajax_data');
 

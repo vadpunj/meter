@@ -141,6 +141,7 @@
      @endif
    </table>
  </div>
+ @if(isset($notin))
   <table class="table table-responsive-sm table-bordered" style="overflow-x: auto">
     <thead>
       <tr>
@@ -177,6 +178,7 @@
     </tbody>
     @endforeach
   </table>
+  @endif
 </div>
 </main>
 @foreach($notin as $key => $value)

@@ -22,6 +22,10 @@
               <i class="nav-icon fa fa-plus"></i> เพิ่มข้อมูล</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link {{ (request()->is('source/find')) ? 'active' : '' }}" href="{{ route('find_source') }}">
+              <i class="nav-icon fa fa-search"></i> ค้นหาข้อมูล</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link {{ (request()->is('source/view')) ? 'active' : '' }}" href="{{ route('view_source') }}">
               <i class="nav-icon fa fa-eye"></i> ดูข้อมูลรายได้</a>
           </li>

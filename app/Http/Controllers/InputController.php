@@ -371,4 +371,16 @@ class InputController extends Controller
        return back()->with('success', 'บันทึกข้อมูลแล้ว');
      }
    }
+
+   public function find_source()
+   {
+     return view('source_find');
+   }
+
+   public function post_find_source(Request $request)
+   {
+     // dd($request->all());
+     $find = Original::where('meter_id','like','%'.$request->meter_id.'%')->get();
+     return view('source_find',['find' => $find]);
+   }
 }
