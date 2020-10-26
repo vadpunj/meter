@@ -25,6 +25,7 @@ Route::get('/logout', "UserController@logout")->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
   Route::get('/dashboard', 'InputController@home_page')->name('dashboard');
+  Route::post('/dashboard', 'InputController@post_homepage')->name('post_homepage');
   Route::get( '/download/{filename}', 'InputController@download');
 
   Route::group(['prefix' => 'source'], function(){

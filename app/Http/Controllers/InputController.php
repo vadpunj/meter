@@ -22,6 +22,12 @@ class InputController extends Controller
     {
       return view('dashboard');
     }
+    public function post_homepage(Request $request)
+    {
+      // dd($request->all());
+      $find = Original::where('meter_id','like','%'.$request->meter_id.'%')->get();
+      return view('dashboard',['find' => $find]);
+    }
     public function get_home()
     {
 

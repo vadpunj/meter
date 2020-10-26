@@ -29,10 +29,94 @@
       <li class="breadcrumb-item">
         <a href="#">หน้าแรก</a>
       </li>
-      
     </ol>
     <!-- end breadcrumb -->
-
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+        @if($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+         <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{{ $message }}</strong>
+        </div>
+        @endif
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+            <div class="card-header word">
+              @if (session()->has('notification'))
+                <div class="notification">
+                  {!! session('notification') !!}
+                </div>
+              @endif
+            <i class="fa fa-align-justify"></i> ค้นหาข้อมูลมิเตอร์</div>
+              <form class="form-horizontal" action="{{ route('post_homepage') }}" method="post">
+                @csrf
+                <div class="card-body">
+                  <div class="form-group row">
+                    <label class="col-md-2 col-form-label">เลขมิเตอร์</label>
+                    <div class="form-group col-sm-4">
+                      <div class="input-group">
+                        <input class="form-control @error('meter_id') is-invalid @enderror" type="text" name="meter_id">
+                        @error('meter_id')
+                          <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                          </span>
+                        @enderror
+                      </div>
+                    </div>
+                    <div class="col-md-2 form-group form-actions">
+                      <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            @if(isset($find))
+            <div style="overflow-x: scroll;width:100%">
+              <table class="table table-responsive-sm table-bordered">
+                <thead>
+                  <tr>
+                    <th>หมายเลขผู้ใช้ไฟฟ้า</th>
+                    <th>สาธารณูปโภค</th>
+                    <th>ประเภทสาธารณูปโภค</th>
+                    <th>รหัสหน่วยธุรกิจ</th>
+                    <th>ที่ตั้ง/โหนด1</th>
+                    <th>ที่ตั้ง/โหนด2</th>
+                    <th>ศูนย์ต้นทุน</th>
+                    <th>GL</th>
+                    <th>Business Process</th>
+                    <th>ผลิตภัณฑ์</th>
+                    <th>Functional Area</th>
+                    <th>Segment</th>
+                    <th>Reference Key1</th>
+                  </tr>
+                </thead>
+                <tbody>
+                @foreach($find as $data)
+                  <tr>
+                    <td>{{ $data->meter_id }}</td>
+                    <td>{{ $data->utility }}</td>
+                    <td align="center">{{ $data->utility_type }}</td>
+                    <td align="center">{{ $data->business_id }}</td>
+                    <td>{{ $data->node1 }}</td>
+                    <td>{{ $data->node2 }}</td>
+                    <td align="center">{{ $data->costcenter }}</td>
+                    <td>{{ $data->gl }}</td>
+                    <td>{{ $data->business_process }}</td>
+                    <td>{{ $data->product }}</td>
+                    <td align="center">{{ $data->functional_area }}</td>
+                    <td align="center">{{ $data->segment }}</td>
+                    <td align="center">{{ $data->key1 }}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+            @endif
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 @endsection
 

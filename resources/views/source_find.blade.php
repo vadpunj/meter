@@ -29,7 +29,7 @@
       <li class="breadcrumb-item">
         <a href="#">หน้าแรก</a>
       </li>
-      <li class="breadcrumb-item active">ศูนย์ต้นทุน</li>
+      <li class="breadcrumb-item active">ค้นหาข้อมูลมิเตอร์</li>
     </ol>
     <!-- end breadcrumb -->
     <div class="container-fluid">
