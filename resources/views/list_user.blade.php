@@ -60,6 +60,7 @@
      @endif
      <table class="table table-responsive-sm table-bordered " id="myTable">
        <thead>
+         <th>No.</th>
          <th>รหัสพนักงาน</th>
          <th>ชื่อ-นามสกุล</th>
          <th>สิทธิ</th>
@@ -71,6 +72,7 @@
        <tbody>
       @foreach($user as $row)
         <tr>
+         <td align="center">{{ $loop->iteration }}</td>
          <td align="center">{{ $row->emp_id }}</td>
          <td>{{ ucwords($row->name) }}</td>
          @if($row->type == '1')
